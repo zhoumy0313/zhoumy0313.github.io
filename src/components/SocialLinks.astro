@@ -1,0 +1,73 @@
+---
+type SocialItem = {
+  label?: string;
+  url?: string;
+  type?: string;
+};
+
+type Props = {
+  items: SocialItem[];
+};
+
+const { items } = Astro.props;
+---
+
+<nav class="social-links" aria-label="Social links">
+  <ul>
+    {items.map(
+      (item) =>
+        item.label &&
+        item.url && (
+          <li>
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              {item.label}
+            </a>
+          </li>
+        ),
+    )}
+  </ul>
+</nav>
+
+<style>
+  .social-links {
+    margin-top: 0;
+  }
+
+  .social-links ul {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .social-links a {
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 0.65rem;
+    color: var(--muted);
+    display: flex;
+    font-size: 0.82rem;
+    font-weight: 650;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.38rem 0.55rem;
+    text-decoration: none;
+    transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out, transform 180ms ease-out;
+    white-space: nowrap;
+  }
+
+  .social-links a:hover {
+    background: oklch(96.5% 0.006 248);
+    border-color: oklch(75% 0.045 205);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 360px) {
+    .social-links ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

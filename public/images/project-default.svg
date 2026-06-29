@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Project cover placeholder">
+  <rect width="960" height="540" fill="oklch(94% 0.012 92)"/>
+  <path d="M0 390C180 310 280 430 460 340s290-120 500-18v218H0z" fill="oklch(88% 0.04 205)"/>
+  <circle cx="730" cy="150" r="70" fill="oklch(78% 0.065 72)"/>
+  <path d="M140 150h360M140 205h250M140 260h310" stroke="oklch(45% 0.095 205)" stroke-width="22" stroke-linecap="round"/>
+</svg>

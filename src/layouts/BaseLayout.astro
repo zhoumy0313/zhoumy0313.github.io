@@ -1,0 +1,48 @@
+---
+import "@styles/global.css";
+import Navigation from "@components/Navigation.astro";
+import ProfileSidebar from "@components/ProfileSidebar.astro";
+import { getSiteEntry } from "@lib/content";
+import type { Locale } from "@lib/paths";
+
+type Props = {
+  title?: string;
+  description?: string;
+  locale?: Locale;
+};
+
+const { title, description: pageDescription, locale = "zh" } = Astro.props as Props;
+const profile = await getSiteEntry("profile", locale);
+const navigation = await getSiteEntry("navigation", locale);
+const social = await getSiteEntry("social", locale);
+
+const pageTitle = title
+  ? `${title} | ${profile.data.name}`
+  : profile.data.name || "Personal Academic Site";
+const description = pageDescription || profile.data.motto || "Personal academic site.";
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description.slice(0, 160)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <ProfileSidebar profile={profile} social={social} locale={locale} />
+      <main class="main-column">
+        <Navigation items={navigation.data.items ?? []} locale={locale} />
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

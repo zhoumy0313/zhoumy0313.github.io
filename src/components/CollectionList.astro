@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { localizedProjectHref, type Locale } from "@lib/paths";
+import MediaCard from "@components/MediaCard.astro";
+
+type Props = {
+  projects: CollectionEntry<"projects">[];
+  locale?: Locale;
+};
+
+const { projects, locale = "zh" } = Astro.props;
+---
+
+<div class="project-list">
+  {projects.map((project) => (
+    <MediaCard
+      href={localizedProjectHref(locale, project.id.split("/").slice(1).join("/"))}
+      title={project.data.title}
+      meta={`${project.data.date.getFullYear()} · ${project.data.tags.join(" / ")}`}
+      summary={project.data.summary}
+      image={project.data.cover}
+      imageAlt={project.data.title}
+    />
+  ))}
+</div>
+
+<style>
+  .project-list {
+    display: grid;
+    gap: 0.95rem;
+  }
+</style>

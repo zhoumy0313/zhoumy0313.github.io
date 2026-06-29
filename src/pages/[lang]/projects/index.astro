@@ -1,0 +1,24 @@
+---
+import CollectionList from "@components/CollectionList.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getProjects, getSiteEntry } from "@lib/content";
+import type { Locale } from "@lib/paths";
+import type { HomeSection } from "@lib/sections";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const projects = await getProjects(lang);
+const homepage = await getSiteEntry("homepage", lang);
+const projectSection = ((homepage.data.sections ?? []) as HomeSection[]).find((section) => section.source === "projects");
+const pageTitle = projectSection?.title ?? "Projects";
+---
+
+<BaseLayout title={pageTitle} description="Research and engineering project portfolio." locale={lang}>
+  <section class="content-section">
+    <h2 class="section-title">{pageTitle}</h2>
+    <CollectionList projects={projects} locale={lang} />
+  </section>
+</BaseLayout>

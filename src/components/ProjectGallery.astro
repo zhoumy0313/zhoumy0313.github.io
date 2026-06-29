@@ -1,0 +1,18 @@
+---
+import { withBase } from "@lib/paths";
+
+type Props = {
+  images: Array<string | { src: string; alt: string }>;
+};
+
+const { images } = Astro.props;
+---
+
+<div class="project-gallery">
+  {images.map((image) => {
+    const src = withBase(typeof image === "string" ? image : image.src);
+    const alt = typeof image === "string" ? "" : image.alt;
+
+    return <img src={src} alt={alt} loading="lazy" />;
+  })}
+</div>

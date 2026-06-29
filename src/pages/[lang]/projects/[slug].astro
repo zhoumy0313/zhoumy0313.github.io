@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from "astro:content";
+import ProjectLayout from "@layouts/ProjectLayout.astro";
+import type { Locale } from "@lib/paths";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects
+    .filter((project) => project.id.startsWith("zh/") || project.id.startsWith("en/"))
+    .map((project) => ({
+      params: { lang: project.id.startsWith("en/") ? "en" : "zh", slug: project.id.split("/").slice(1).join("/") },
+      props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ProjectLayout project={project} locale={Astro.params.lang as Locale}>
+  <Content />
+</ProjectLayout>

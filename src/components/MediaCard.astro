@@ -1,0 +1,129 @@
+---
+import { withBase } from "@lib/paths";
+
+type Props = {
+  href: string;
+  title: string;
+  meta?: string;
+  summary?: string;
+  image?: string;
+  imageAlt?: string;
+  tags?: string[];
+  external?: boolean;
+  layout?: "row" | "stack" | "wide";
+};
+
+const { href, title, meta, summary, image, imageAlt, tags = [], external = false, layout = "row" } = Astro.props;
+---
+
+<a class:list={["media-card", `media-card-${layout}`, "content-card"]} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>
+  {image && <img class="media-card-image" src={withBase(image)} alt={imageAlt ?? ""} loading="lazy" />}
+  <div class="media-card-body">
+    {meta && <p class="media-card-meta">{meta}</p>}
+    <h3>{title}</h3>
+    {summary && <p class="media-card-summary">{summary}</p>}
+    {tags.length > 0 && (
+      <ul class="media-card-tags">
+        {tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+    )}
+  </div>
+</a>
+
+<style>
+  .media-card {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    padding: 0.75rem;
+    text-decoration: none;
+    transition: border-color 180ms ease-out, transform 180ms ease-out, box-shadow 180ms ease-out;
+  }
+
+  .media-card-stack {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .media-card-wide {
+    align-items: start;
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+  }
+
+  .media-card:hover {
+    border-color: oklch(70% 0.01 248);
+    box-shadow: 0 10px 24px oklch(20% 0.02 248 / 0.06);
+    transform: translateY(-1px);
+  }
+
+  .media-card-image {
+    aspect-ratio: 16 / 10;
+    border-radius: 0.75rem;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+  }
+
+  .media-card-stack .media-card-image {
+    aspect-ratio: 16 / 9;
+  }
+
+  .media-card-wide .media-card-image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .media-card-wide .media-card-meta {
+    margin-bottom: 0.2rem;
+  }
+
+  .media-card-wide .media-card-summary {
+    margin-top: 0.28rem;
+  }
+
+  .media-card-body {
+    min-width: 0;
+  }
+
+  .media-card-meta {
+    color: var(--accent);
+    font-size: var(--label-size);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    margin: 0 0 0.3rem;
+    text-transform: uppercase;
+  }
+
+  .media-card h3 {
+    font-family: var(--font-serif);
+    margin: 0;
+  }
+
+  .media-card-summary {
+    color: var(--muted);
+    margin: 0.35rem 0 0;
+  }
+
+  .media-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+  }
+
+  .media-card-tags li {
+    background: var(--surface-strong);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.74rem;
+    padding: 0.22rem 0.5rem;
+  }
+
+  @media (max-width: 620px) {
+    .media-card {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

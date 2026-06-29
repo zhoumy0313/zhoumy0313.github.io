@@ -1,0 +1,22 @@
+---
+import AwardList from "@components/AwardList.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getSiteEntry } from "@lib/content";
+import type { Locale } from "@lib/paths";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const awards = await getSiteEntry("awards", lang);
+const items = awards.data.items ?? [];
+---
+
+<BaseLayout title={awards.data.title ?? "Awards"} description={awards.data.summary ?? "Awards and recognitions."} locale={lang}>
+  <section class="content-section">
+    <h2 class="section-title">{awards.data.title ?? "Awards"}</h2>
+    {awards.data.summary && <p class="subtle">{awards.data.summary}</p>}
+    <AwardList items={items} />
+  </section>
+</BaseLayout>

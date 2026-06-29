@@ -1,0 +1,22 @@
+---
+import EducationTimeline from "@components/EducationTimeline.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getSiteEntry } from "@lib/content";
+import type { Locale } from "@lib/paths";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const education = await getSiteEntry("education", lang);
+const items = education.data.items ?? [];
+---
+
+<BaseLayout title={education.data.title ?? "Education"} description={education.data.summary ?? "Academic background and training."} locale={lang}>
+  <section class="content-section">
+    <h2 class="section-title">{education.data.title ?? "Education"}</h2>
+    {education.data.summary && <p class="subtle">{education.data.summary}</p>}
+    <EducationTimeline items={items} />
+  </section>
+</BaseLayout>

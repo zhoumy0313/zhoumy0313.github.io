@@ -1,0 +1,77 @@
+---
+type AwardItem = {
+  title?: string;
+  issuer?: string;
+  date?: Date | number | string;
+  description?: string;
+  image?: string;
+};
+
+type Props = {
+  items: AwardItem[];
+};
+
+const { items } = Astro.props;
+
+function formatYear(date?: Date | number | string): string {
+  if (!date) return "";
+  if (date instanceof Date) return String(date.getFullYear());
+  if (typeof date === "number") return String(date);
+
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? String(date) : String(parsed.getFullYear());
+}
+---
+
+<div class="award-list">
+  {items.map((item) => (
+      <article class="award-card content-card">
+      {item.image && <img src={item.image} alt={item.title ?? ""} loading="lazy" />}
+      <div>
+        <p class="meta">{formatYear(item.date)}</p>
+        <h3>{item.title}</h3>
+        <p class="summary">{[item.issuer, item.description].filter(Boolean).join(" · ")}</p>
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .award-list {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .award-card {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+    padding: 0.75rem;
+  }
+
+  .award-card img {
+    border-radius: 0.75rem;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .meta {
+    color: var(--accent);
+    font-size: var(--label-size);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    margin: 0 0 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .award-card h3 {
+    font-family: var(--font-serif);
+    margin: 0;
+  }
+
+  .summary {
+    color: var(--muted);
+    margin: 0.35rem 0 0;
+  }
+</style>

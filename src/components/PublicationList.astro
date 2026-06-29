@@ -1,0 +1,139 @@
+---
+import { withBase } from "@lib/paths";
+
+type PublicationLink = {
+  title?: string;
+  url?: string;
+};
+
+type PublicationItem = {
+  title?: string;
+  venue?: string;
+  date?: Date | number | string;
+  authors?: string;
+  links?: PublicationLink[];
+  status?: string;
+  image?: string;
+};
+
+type Props = {
+  items: PublicationItem[];
+};
+
+const { items } = Astro.props;
+
+function formatYear(date?: Date | number | string): string {
+  if (!date) return "";
+  if (date instanceof Date) return String(date.getFullYear());
+  if (typeof date === "number") return String(date);
+
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? String(date) : String(parsed.getFullYear());
+}
+---
+
+<div class="publication-list">
+  {items.map((item) => {
+    const links = (item.links ?? []).filter((link) => link.title && link.url);
+
+    return (
+      <article class="publication-card content-card">
+        {item.image && <img src={withBase(item.image)} alt={item.title ?? ""} loading="lazy" />}
+        <div class="publication-body">
+          <p class="meta">{`${formatYear(item.date)}${item.venue ? ` · ${item.venue}` : ""}`}</p>
+          <h3>{item.title}</h3>
+          {item.authors && <p class="authors">{item.authors}</p>}
+          {item.status && <p class="status">{item.status}</p>}
+          {links.length > 0 && (
+            <div class="publication-links">
+              {links.map((link) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer">{link.title}</a>
+              ))}
+            </div>
+          )}
+        </div>
+      </article>
+    );
+  })}
+</div>
+
+<style>
+  .publication-list {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .publication-card {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    padding: 0.75rem;
+  }
+
+  .publication-card img {
+    aspect-ratio: 16 / 10;
+    border-radius: 0.75rem;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .publication-body {
+    min-width: 0;
+  }
+
+  .meta {
+    color: var(--accent);
+    font-size: var(--label-size);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    margin: 0 0 0.3rem;
+    text-transform: uppercase;
+  }
+
+  .publication-card h3 {
+    font-family: var(--font-serif);
+    margin: 0;
+  }
+
+  .authors {
+    color: var(--muted);
+    margin: 0.35rem 0 0;
+  }
+
+  .status {
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin: 0.55rem 0 0;
+  }
+
+  .publication-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.75rem;
+  }
+
+  .publication-links a {
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.38rem 0.68rem;
+    text-decoration: none;
+  }
+
+  .publication-links a:hover {
+    background: oklch(91.8% 0.035 235);
+    color: oklch(36% 0.055 235);
+  }
+
+  @media (max-width: 620px) {
+    .publication-card {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

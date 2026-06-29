@@ -1,0 +1,19 @@
+---
+import { withBase } from "@lib/paths";
+
+type Props = {
+  href: string;
+  newTab?: boolean;
+};
+
+const { href, newTab } = Astro.props;
+---
+
+<a
+  class="link-button"
+  href={withBase(href)}
+  target={newTab ? "_blank" : undefined}
+  rel={newTab ? "noopener noreferrer" : undefined}
+>
+  <slot />
+</a>

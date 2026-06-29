@@ -1,0 +1,75 @@
+---
+type EducationItem = {
+  degree?: string;
+  school?: string;
+  period?: string;
+  description?: string;
+  image?: string;
+};
+
+type Props = {
+  items: EducationItem[];
+};
+
+const { items } = Astro.props;
+---
+
+<div class="education-list">
+  {items.map((item) => (
+    <article class="education-card content-card">
+      {item.image && <img src={item.image} alt={item.school ?? ""} loading="lazy" />}
+      <div>
+        <p class="meta">{item.period}</p>
+        <h3>{item.degree}</h3>
+        <p class="summary">{item.school}</p>
+        {item.description && <p class="description">{item.description}</p>}
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .education-list {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .education-card {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+    padding: 0.75rem;
+  }
+
+  .education-card img {
+    border-radius: 0.75rem;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .meta {
+    color: var(--accent);
+    font-size: var(--label-size);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    margin: 0 0 0.2rem;
+    text-transform: uppercase;
+  }
+
+  .education-card h3 {
+    font-family: var(--font-serif);
+    margin: 0;
+  }
+
+  .summary {
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0.35rem 0 0;
+  }
+
+  .description {
+    color: var(--muted);
+    margin: 0.3rem 0 0;
+  }
+</style>

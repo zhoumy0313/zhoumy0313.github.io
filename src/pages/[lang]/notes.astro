@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import MediaCard from "@components/MediaCard.astro";
+import { getSiteEntry } from "@lib/content";
+import { withBase } from "@lib/paths";
+import type { Locale } from "@lib/paths";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const notes = await getSiteEntry("notes", lang);
+const items = (notes.data.items ?? []) as Array<{
+  title: string;
+  summary: string;
+  image?: string;
+  url: string;
+  tags?: string[];
+}>;
+---
+
+<BaseLayout title={notes.data.title} description={notes.data.summary} locale={lang}>
+  <section class="content-section">
+    <h2 class="section-title">{notes.data.title}</h2>
+    <p class="subtle">{notes.data.summary}</p>
+    <div class="notes-list">
+      {items.map((item) => (
+        <MediaCard
+          href={item.url}
+          title={item.title}
+          summary={item.summary}
+          image={item.image ? withBase(item.image) : undefined}
+          imageAlt={item.title}
+          external={true}
+          tags={item.tags}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

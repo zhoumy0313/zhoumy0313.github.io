@@ -1,0 +1,22 @@
+---
+import PublicationList from "@components/PublicationList.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getSiteEntry } from "@lib/content";
+import type { Locale } from "@lib/paths";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const publications = await getSiteEntry("publications", lang);
+const items = publications.data.items ?? [];
+---
+
+<BaseLayout title={publications.data.title ?? "Publications"} description={publications.data.summary ?? "Selected publications and preprints."} locale={lang}>
+  <section class="content-section">
+    <h2 class="section-title">{publications.data.title ?? "Publications"}</h2>
+    {publications.data.summary && <p class="subtle">{publications.data.summary}</p>}
+    <PublicationList items={items} />
+  </section>
+</BaseLayout>

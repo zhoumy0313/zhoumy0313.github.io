@@ -1,0 +1,228 @@
+---
+import type { CollectionEntry } from "astro:content";
+import SocialLinks from "@components/SocialLinks.astro";
+import { withBase } from "@lib/paths";
+import type { Locale } from "@lib/paths";
+
+type Props = {
+  profile: CollectionEntry<"site">;
+  social: CollectionEntry<"site">;
+  locale?: Locale;
+};
+
+const { profile, social, locale = "zh" } = Astro.props;
+const research = profile.data.research ?? [];
+const socialItems = (social.data.items ?? []) as Array<{ label?: string; url?: string; type?: string }>;
+const avatar = profile.data.avatar ? withBase(profile.data.avatar) : undefined;
+const labels = {
+  location: locale === "zh" ? "地址" : "Location",
+  institution: locale === "zh" ? "单位" : "Institution",
+  specialty: locale === "zh" ? "专业" : "Specialty",
+  email: locale === "zh" ? "邮箱" : "Email",
+  research: locale === "zh" ? "研究方向" : "Research",
+  social: locale === "zh" ? "社交链接" : "Social",
+};
+---
+
+<aside class="profile-card">
+  <div class="profile-top">
+    {avatar && <img class="avatar" src={avatar} alt={`${profile.data.name} avatar`} />}
+    <h1>{profile.data.name}</h1>
+    {profile.data.position && <p class="status">{profile.data.position}</p>}
+    {profile.data.motto && <p class="motto">{profile.data.motto}</p>}
+  </div>
+
+  <dl class="facts">
+    {profile.data.location && (
+      <div class="fact-item">
+        <dt><span class="icon material-symbols-outlined" aria-hidden="true">place</span>{labels.location}</dt>
+        <dd>{profile.data.location}</dd>
+      </div>
+    )}
+    {profile.data.organization && (
+      <div class="fact-item">
+        <dt><span class="icon material-symbols-outlined" aria-hidden="true">domain</span>{labels.institution}</dt>
+        <dd>{profile.data.organization}</dd>
+      </div>
+    )}
+    {profile.data.title && (
+      <div class="fact-item">
+        <dt><span class="icon material-symbols-outlined" aria-hidden="true">school</span>{labels.specialty}</dt>
+        <dd>{profile.data.title}</dd>
+      </div>
+    )}
+    {profile.data.email && (
+      <div class="fact-item">
+        <dt><span class="icon material-symbols-outlined" aria-hidden="true">mail</span>{labels.email}</dt>
+        <dd>
+          <a href={`mailto:${profile.data.email}`}>{profile.data.email}</a>
+        </dd>
+      </div>
+    )}
+  </dl>
+
+  {research.length > 0 && (
+    <div class="research">
+      <p><span class="title-icon material-symbols-outlined" aria-hidden="true">science</span>{labels.research}</p>
+      <ul class="pill-list">
+        {research.map((item) => <li class="pill">{item}</li>)}
+      </ul>
+    </div>
+  )}
+
+  <div class="social-block">
+    <p><span class="title-icon material-symbols-outlined" aria-hidden="true">share</span>{labels.social}</p>
+    <SocialLinks items={socialItems} />
+  </div>
+</aside>
+
+<style>
+  .profile-card {
+    align-self: start;
+    background: var(--sidebar-bg, var(--panel));
+    border: 1px solid var(--line);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    padding: clamp(1rem, 2vw, 1.3rem);
+    position: sticky;
+    top: 1rem;
+  }
+
+  .profile-top {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 0.35rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .avatar {
+    aspect-ratio: 1;
+    border-radius: 0.7rem;
+    box-shadow: 0 6px 18px oklch(20% 0.02 248 / 0.08);
+    object-fit: cover;
+    width: 5.9rem;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.42rem, 1.85vw, 1.9rem);
+    line-height: 1.02;
+    margin: 0.1rem 0 0;
+  }
+
+  .status {
+    color: oklch(54% 0.09 235);
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .motto {
+    color: var(--muted);
+    font-family: var(--font-serif);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0.2rem 0 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .facts {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding-top: 0;
+  }
+
+  .fact-item {
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .facts dt {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--body-size);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: capitalize;
+  }
+
+  .icon {
+    display: inline-grid;
+    font-size: 1.08rem;
+    line-height: 1;
+    min-width: 1.1em;
+    place-items: center;
+    opacity: 0.85;
+  }
+
+  .facts dd {
+    margin: 0;
+    color: var(--ink);
+    line-height: 1.55;
+    padding-left: 1.45rem;
+  }
+
+  .research {
+    margin-top: 0.9rem;
+  }
+
+  .research p {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--body-size);
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    text-transform: capitalize;
+  }
+
+  .social-block {
+    border-top: 1px solid var(--line);
+    margin-top: 1.15rem;
+    padding-top: 0.9rem;
+  }
+
+  .social-block > p {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--body-size);
+    font-weight: 700;
+    margin: 0 0 0.65rem;
+    text-transform: capitalize;
+  }
+
+  .title-icon {
+    display: inline-grid;
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.8;
+    place-items: center;
+  }
+
+  :global(.material-symbols-outlined) {
+    font-family: "Material Symbols Outlined";
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 20;
+    font-feature-settings: "liga";
+  }
+
+  @media (max-width: 860px) {
+    .profile-card {
+      position: static;
+    }
+
+  }
+</style>

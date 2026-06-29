@@ -1,0 +1,19 @@
+---
+import SectionRenderer from "@components/SectionRenderer.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getSiteEntry } from "@lib/content";
+import type { HomeSection } from "@lib/sections";
+import type { Locale } from "@lib/paths";
+
+export async function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const homepage = await getSiteEntry("homepage", lang);
+const sections = (homepage.data.sections ?? []) as HomeSection[];
+---
+
+<BaseLayout locale={lang}>
+  {sections.map((section) => <SectionRenderer section={section} locale={lang} />)}
+</BaseLayout>

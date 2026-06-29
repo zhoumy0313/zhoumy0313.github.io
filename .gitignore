@@ -5,3 +5,7 @@ dist/
 .astro/
 .env
 .env.local
+
+.agents/
+.codex/
+.claude/

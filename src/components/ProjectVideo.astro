@@ -1,0 +1,15 @@
+---
+import { withBase } from "@lib/paths";
+
+type Props = {
+  url: string;
+  title?: string;
+};
+
+const { url, title } = Astro.props;
+---
+
+<figure class="project-video">
+  <video src={withBase(url)} controls preload="metadata" title={title}></video>
+  {title && <figcaption>{title}</figcaption>}
+</figure>

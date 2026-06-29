@@ -1,0 +1,129 @@
+---
+import { withBase } from "@lib/paths";
+import type { Locale } from "@lib/paths";
+
+type NavItem = {
+  label?: string;
+  href?: string;
+  external?: boolean;
+};
+
+type Props = {
+  items: NavItem[];
+  locale?: Locale;
+};
+
+const { items, locale = "zh" } = Astro.props;
+
+function localizeHref(href: string): string {
+  if (href.startsWith("http") || href.startsWith("#")) return href;
+  if (href === "/") return locale === "zh" ? "/zh/" : "/en/";
+  if (href.startsWith("/zh/") || href.startsWith("/en/")) return withBase(href);
+  return withBase(`/${locale}${href}`);
+}
+
+const zhHref = locale === "zh" ? undefined : "/zh/";
+const enHref = locale === "en" ? undefined : "/en/";
+---
+
+<nav class="top-nav" aria-label="Primary navigation">
+  {items.map(
+    (item) =>
+      item.label &&
+      item.href && (
+        <a
+          href={item.external ? item.href : localizeHref(item.href)}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noopener noreferrer" : undefined}
+        >
+          {item.label}
+        </a>
+      ),
+  )}
+</nav>
+
+<div class="locale-switch" aria-label="Language switcher">
+  {zhHref ? (
+    <a href={zhHref}>中文</a>
+  ) : (
+    <span class="active" aria-current="true">中文</span>
+  )}
+  {enHref ? (
+    <a href={enHref}>English</a>
+  ) : (
+    <span class="active" aria-current="true">English</span>
+  )}
+</div>
+
+<style>
+  .top-nav {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    justify-content: flex-start;
+    margin-bottom: 0.35rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .top-nav a {
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 1.02rem;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    text-decoration: none;
+  }
+
+  .top-nav a:hover {
+    background: var(--surface-strong);
+    color: var(--accent);
+  }
+
+  .locale-switch {
+    align-items: center;
+    background: oklch(95.8% 0.005 248);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 1px 0 oklch(20% 0.02 248 / 0.04);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.15rem;
+    margin-left: auto;
+    margin-top: 0.35rem;
+    padding: 0.18rem;
+    width: fit-content;
+  }
+
+  .locale-switch a,
+  .locale-switch span {
+    border-radius: 999px;
+    color: oklch(54% 0.008 248);
+    display: inline-flex;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.45rem 0.65rem;
+    text-decoration: none;
+    transition: background 160ms ease-out, color 160ms ease-out;
+  }
+
+  .locale-switch a:hover {
+    background: oklch(97.2% 0.004 248);
+    color: oklch(38% 0.025 248);
+  }
+
+  .locale-switch .active {
+    background: oklch(91.8% 0.035 235);
+    box-shadow: 0 1px 5px oklch(38% 0.04 235 / 0.12);
+    color: oklch(36% 0.055 235);
+  }
+
+  @media (max-width: 860px) {
+    .top-nav {
+      justify-content: flex-start;
+      margin: 0.55rem 0 0.35rem;
+    }
+  }
+</style>

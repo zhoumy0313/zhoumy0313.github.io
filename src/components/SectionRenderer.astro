@@ -1,0 +1,123 @@
+---
+import { render } from "astro:content";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import CollectionList from "@components/CollectionList.astro";
+import AwardList from "@components/AwardList.astro";
+import EducationTimeline from "@components/EducationTimeline.astro";
+import MediaCard from "@components/MediaCard.astro";
+import PublicationList from "@components/PublicationList.astro";
+import { getProjects, getSiteEntry } from "@lib/content";
+import { assertKnownSection, type HomeSection } from "@lib/sections";
+import { withBase, type Locale } from "@lib/paths";
+
+type Props = {
+  section: HomeSection;
+  locale?: Locale;
+};
+
+const { section, locale = "zh" } = Astro.props;
+const validatedSection = assertKnownSection(section);
+
+function normalizeSiteItems(items: unknown[]): Array<Record<string, unknown>> {
+  return items.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object");
+}
+
+let MarkdownContent: AstroComponentFactory | null = null;
+let collectionProjects: Awaited<ReturnType<typeof getProjects>> = [];
+let siteItems: Array<Record<string, unknown>> = [];
+
+if (validatedSection.type === "markdown") {
+  const entry = await getSiteEntry("profile", locale);
+  const rendered = await render(entry);
+  MarkdownContent = rendered.Content;
+}
+
+if (validatedSection.type === "collection-list" || validatedSection.type === "timeline") {
+  if (["publications", "awards", "education", "notes"].includes(validatedSection.source)) {
+    const entry = await getSiteEntry(
+      validatedSection.source as "publications" | "awards" | "education" | "notes",
+      locale,
+    );
+    siteItems = normalizeSiteItems((entry.data.items as unknown[] | undefined) ?? []);
+  }
+}
+
+if (validatedSection.type === "collection-list" && validatedSection.source === "projects") {
+  collectionProjects = await getProjects(locale, {
+    featured: validatedSection.filter?.featured,
+    limit: validatedSection.limit,
+  });
+}
+
+function toStringValue(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
+---
+
+<section class="content-section page-section">
+  <h2 class="section-title">{validatedSection.title}</h2>
+
+  {validatedSection.type === "markdown" && MarkdownContent && (
+    <div class="prose">
+      <MarkdownContent />
+    </div>
+  )}
+
+  {validatedSection.type === "collection-list" && validatedSection.source === "publications" && (
+    <PublicationList
+      items={siteItems.map((item) => ({
+        title: toStringValue(item.title),
+        venue: toStringValue(item.venue),
+        date: item.date as string | number | Date | undefined,
+        authors: item.authors as string | undefined,
+        links: item.links as Array<{ title?: string; url?: string }> | undefined,
+        status: item.status as string | undefined,
+        image: item.image as string | undefined,
+      }))}
+    />
+  )}
+
+  {validatedSection.type === "collection-list" && validatedSection.source === "awards" && (
+    <AwardList
+      items={siteItems.map((item) => ({
+        title: toStringValue(item.title),
+        issuer: toStringValue(item.issuer),
+        date: item.date as string | number | Date | undefined,
+        description: item.description as string | undefined,
+        image: item.image as string | undefined,
+      }))}
+    />
+  )}
+
+  {validatedSection.type === "timeline" && validatedSection.source === "education" && (
+    <EducationTimeline
+      items={siteItems.map((item) => ({
+        degree: toStringValue(item.degree),
+        school: toStringValue(item.school),
+        period: toStringValue(item.period),
+        description: item.description as string | undefined,
+        image: item.image as string | undefined,
+      }))}
+    />
+  )}
+
+  {validatedSection.type === "collection-list" && validatedSection.source === "notes" && (
+    <div class="notes-list">
+      {siteItems.map((item) => (
+        <MediaCard
+          href={toStringValue(item.url)}
+          title={toStringValue(item.title)}
+          summary={item.summary as string | undefined}
+          image={item.image ? withBase(toStringValue(item.image)) : undefined}
+          imageAlt={toStringValue(item.title)}
+          external={true}
+          tags={(item.tags as string[] | undefined) ?? []}
+        />
+      ))}
+    </div>
+  )}
+
+  {validatedSection.type === "collection-list" && validatedSection.source === "projects" && (
+    <CollectionList projects={collectionProjects} locale={locale} />
+  )}
+</section>

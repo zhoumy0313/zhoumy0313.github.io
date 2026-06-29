@@ -1,0 +1,834 @@
+media:
+  - name: site-media
+    label: Site media
+    input: public/images/uploads
+    output: /images/uploads
+    rename: safe
+    categories: [image]
+
+content:
+  - name: zh-content
+    label: 中文内容
+    type: group
+    items:
+      - name: zh-profile
+        label: 个人信息与 About
+        type: file
+        path: content/site/zh/profile.md
+        format: yaml-frontmatter
+        fields:
+          - name: name
+            label: 姓名
+            type: string
+            required: true
+          - name: avatar
+            label: 头像 URL
+            type: string
+          - name: motto
+            label: 座右铭
+            type: string
+          - name: location
+            label: 地址
+            type: string
+          - name: organization
+            label: 单位
+            type: string
+          - name: position
+            label: 身份
+            type: string
+          - name: title
+            label: 专业
+            type: string
+          - name: research
+            label: 研究方向
+            type: string
+            list: true
+          - name: email
+            label: 邮箱
+            type: string
+          - name: body
+            label: About 正文
+            type: rich-text
+            options:
+              media: site-media
+              path: public/images/uploads
+              rename: true
+              switcher: true
+
+      - name: zh-navigation
+        label: 导航栏
+        type: file
+        path: content/site/zh/navigation.md
+        format: yaml-frontmatter
+        fields:
+          - name: items
+            label: 导航项
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label} -> {href}"
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+                required: true
+              - name: href
+                label: 链接路径
+                type: string
+                required: true
+
+      - name: zh-homepage
+        label: 首页模块
+        type: file
+        path: content/site/zh/homepage.md
+        format: yaml-frontmatter
+        fields:
+          - name: layout
+            label: 首页布局
+            type: select
+            options:
+              values: [profile-home]
+          - name: sections
+            label: 首页模块顺序
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title} ({source})"
+            fields:
+              - name: type
+                label: 渲染类型
+                type: select
+                required: true
+                options:
+                  values:
+                    - markdown
+                    - collection-list
+                    - timeline
+              - name: title
+                label: 模块标题
+                type: string
+                required: true
+              - name: source
+                label: 数据来源
+                type: select
+                required: true
+                options:
+                  values:
+                    - profile
+                    - education
+                    - publications
+                    - awards
+                    - projects
+                    - notes
+              - name: filter
+                label: 筛选条件
+                type: object
+                fields:
+                  - name: featured
+                    label: 只显示首页精选项目
+                    type: boolean
+              - name: limit
+                label: 显示数量上限
+                type: number
+
+      - name: zh-education
+        label: 教育经历
+        type: file
+        path: content/site/zh/education.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 页面标题
+            type: string
+            required: true
+          - name: summary
+            label: 页面摘要
+            type: text
+          - name: items
+            label: 教育条目
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{degree} - {school}"
+            fields:
+              - name: degree
+                label: 学位
+                type: string
+                required: true
+              - name: school
+                label: 学校
+                type: string
+                required: true
+              - name: period
+                label: 时间
+                type: string
+                required: true
+              - name: description
+                label: 描述
+                type: text
+              - name: image
+                label: 图片 URL
+                type: string
+
+      - name: zh-publications
+        label: 发表内容
+        type: file
+        path: content/site/zh/publications.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 页面标题
+            type: string
+            required: true
+          - name: summary
+            label: 页面摘要
+            type: text
+          - name: items
+            label: 发表条目
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{date} - {title}"
+            fields:
+              - name: title
+                label: 标题
+                type: string
+                required: true
+              - name: venue
+                label: 期刊/会议/平台
+                type: string
+                required: true
+              - name: date
+                label: 年份
+                type: number
+                required: true
+              - name: authors
+                label: 作者
+                type: text
+              - name: status
+                label: 状态
+                type: string
+              - name: image
+                label: 图片 URL
+                type: string
+              - name: links
+                label: 链接按钮
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - name: title
+                    label: 按钮文字
+                    type: string
+                  - name: url
+                    label: 链接 URL
+                    type: string
+
+      - name: zh-awards
+        label: 获奖经历
+        type: file
+        path: content/site/zh/awards.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 页面标题
+            type: string
+            required: true
+          - name: summary
+            label: 页面摘要
+            type: text
+          - name: items
+            label: 获奖条目
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{date} - {title}"
+            fields:
+              - name: title
+                label: 奖项名称
+                type: string
+                required: true
+              - name: issuer
+                label: 颁发机构
+                type: string
+                required: true
+              - name: date
+                label: 年份
+                type: number
+                required: true
+              - name: description
+                label: 描述
+                type: text
+              - name: image
+                label: 图片 URL
+                type: string
+
+      - name: zh-notes
+        label: 学习笔记外链
+        type: file
+        path: content/site/zh/notes.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 页面标题
+            type: string
+            required: true
+          - name: summary
+            label: 页面摘要
+            type: text
+          - name: items
+            label: 笔记条目
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: 标题
+                type: string
+                required: true
+              - name: summary
+                label: 摘要
+                type: text
+                required: true
+              - name: image
+                label: 图片 URL
+                type: string
+              - name: url
+                label: 外部链接
+                type: string
+                required: true
+              - name: tags
+                label: 标签
+                type: string
+                list: true
+          - name: body
+            label: 页面正文备注
+            type: rich-text
+            options:
+              media: site-media
+              path: public/images/uploads
+              rename: true
+              switcher: true
+
+      - name: zh-social
+        label: 社交链接
+        type: file
+        path: content/site/zh/social.md
+        format: yaml-frontmatter
+        fields:
+          - name: items
+            label: 社交链接
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+                required: true
+              - name: url
+                label: 链接 URL
+                type: string
+                required: true
+              - name: type
+                label: 类型
+                type: string
+
+      - name: zh-projects
+        label: 研究项目
+        type: collection
+        path: content/projects/zh
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        view:
+          primary: title
+          fields: [title, date, featured, order]
+          sort: [order, date, title]
+          default:
+            sort: order
+            order: desc
+        fields:
+          - name: title
+            label: 项目标题
+            type: string
+            required: true
+          - name: summary
+            label: 项目摘要
+            type: text
+            required: true
+          - name: date
+            label: 日期
+            type: date
+            required: true
+          - name: tags
+            label: 标签
+            type: string
+            list: true
+          - name: cover
+            label: 封面图 URL
+            type: string
+          - name: video
+            label: 演示视频 URL
+            type: string
+          - name: links
+            label: 项目链接
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: 按钮文字
+                type: string
+              - name: url
+                label: 链接 URL
+                type: string
+              - name: type
+                label: 链接类型
+                type: select
+                options:
+                  values:
+                    - code
+                    - paper
+                    - demo
+                    - video
+                    - external
+          - name: featured
+            label: 首页精选
+            type: boolean
+          - name: order
+            label: 排序权重
+            type: number
+          - name: body
+            label: 项目详情正文
+            type: rich-text
+            options:
+              media: site-media
+              path: public/images/uploads
+              rename: true
+              switcher: true
+
+  - name: en-content
+    label: English Content
+    type: group
+    items:
+      - name: en-profile
+        label: Profile and About
+        type: file
+        path: content/site/en/profile.md
+        format: yaml-frontmatter
+        fields:
+          - name: name
+            label: Name
+            type: string
+            required: true
+          - name: avatar
+            label: Avatar URL
+            type: string
+          - name: motto
+            label: Motto
+            type: string
+          - name: location
+            label: Location
+            type: string
+          - name: organization
+            label: Institution
+            type: string
+          - name: position
+            label: Position
+            type: string
+          - name: title
+            label: Specialty
+            type: string
+          - name: research
+            label: Research Interests
+            type: string
+            list: true
+          - name: email
+            label: Email
+            type: string
+          - name: body
+            label: About Body
+            type: rich-text
+            options:
+              media: site-media
+              path: public/images/uploads
+              rename: true
+              switcher: true
+
+      - name: en-navigation
+        label: Navigation
+        type: file
+        path: content/site/en/navigation.md
+        format: yaml-frontmatter
+        fields:
+          - name: items
+            label: Navigation Items
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label} -> {href}"
+            fields:
+              - name: label
+                label: Label
+                type: string
+                required: true
+              - name: href
+                label: Path
+                type: string
+                required: true
+
+      - name: en-homepage
+        label: Homepage Sections
+        type: file
+        path: content/site/en/homepage.md
+        format: yaml-frontmatter
+        fields:
+          - name: layout
+            label: Layout
+            type: select
+            options:
+              values: [profile-home]
+          - name: sections
+            label: Section Order
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title} ({source})"
+            fields:
+              - name: type
+                label: Render Type
+                type: select
+                required: true
+                options:
+                  values:
+                    - markdown
+                    - collection-list
+                    - timeline
+              - name: title
+                label: Section Title
+                type: string
+                required: true
+              - name: source
+                label: Data Source
+                type: select
+                required: true
+                options:
+                  values:
+                    - profile
+                    - education
+                    - publications
+                    - awards
+                    - projects
+                    - notes
+              - name: filter
+                label: Filter
+                type: object
+                fields:
+                  - name: featured
+                    label: Featured Projects Only
+                    type: boolean
+              - name: limit
+                label: Item Limit
+                type: number
+
+      - name: en-education
+        label: Education
+        type: file
+        path: content/site/en/education.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Page Title
+            type: string
+            required: true
+          - name: summary
+            label: Page Summary
+            type: text
+          - name: items
+            label: Education Items
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{degree} - {school}"
+            fields:
+              - name: degree
+                label: Degree
+                type: string
+                required: true
+              - name: school
+                label: School
+                type: string
+                required: true
+              - name: period
+                label: Period
+                type: string
+                required: true
+              - name: description
+                label: Description
+                type: text
+              - name: image
+                label: Image URL
+                type: string
+
+      - name: en-publications
+        label: Publications
+        type: file
+        path: content/site/en/publications.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Page Title
+            type: string
+            required: true
+          - name: summary
+            label: Page Summary
+            type: text
+          - name: items
+            label: Publication Items
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{date} - {title}"
+            fields:
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: venue
+                label: Venue
+                type: string
+                required: true
+              - name: date
+                label: Year
+                type: number
+                required: true
+              - name: authors
+                label: Authors
+                type: text
+              - name: status
+                label: Status
+                type: string
+              - name: image
+                label: Image URL
+                type: string
+              - name: links
+                label: Link Buttons
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - name: title
+                    label: Button Title
+                    type: string
+                  - name: url
+                    label: Link URL
+                    type: string
+
+      - name: en-awards
+        label: Awards
+        type: file
+        path: content/site/en/awards.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Page Title
+            type: string
+            required: true
+          - name: summary
+            label: Page Summary
+            type: text
+          - name: items
+            label: Award Items
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{date} - {title}"
+            fields:
+              - name: title
+                label: Award Title
+                type: string
+                required: true
+              - name: issuer
+                label: Issuer
+                type: string
+                required: true
+              - name: date
+                label: Year
+                type: number
+                required: true
+              - name: description
+                label: Description
+                type: text
+              - name: image
+                label: Image URL
+                type: string
+
+      - name: en-notes
+        label: Study Note Links
+        type: file
+        path: content/site/en/notes.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Page Title
+            type: string
+            required: true
+          - name: summary
+            label: Page Summary
+            type: text
+          - name: items
+            label: Note Items
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: summary
+                label: Summary
+                type: text
+                required: true
+              - name: image
+                label: Image URL
+                type: string
+              - name: url
+                label: External URL
+                type: string
+                required: true
+              - name: tags
+                label: Tags
+                type: string
+                list: true
+          - name: body
+            label: Page Body Note
+            type: rich-text
+            options:
+              media: site-media
+              path: public/images/uploads
+              rename: true
+              switcher: true
+
+      - name: en-social
+        label: Social Links
+        type: file
+        path: content/site/en/social.md
+        format: yaml-frontmatter
+        fields:
+          - name: items
+            label: Social Links
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: Label
+                type: string
+                required: true
+              - name: url
+                label: URL
+                type: string
+                required: true
+              - name: type
+                label: Type
+                type: string
+
+      - name: en-projects
+        label: Projects
+        type: collection
+        path: content/projects/en
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        view:
+          primary: title
+          fields: [title, date, featured, order]
+          sort: [order, date, title]
+          default:
+            sort: order
+            order: desc
+        fields:
+          - name: title
+            label: Project Title
+            type: string
+            required: true
+          - name: summary
+            label: Project Summary
+            type: text
+            required: true
+          - name: date
+            label: Date
+            type: date
+            required: true
+          - name: tags
+            label: Tags
+            type: string
+            list: true
+          - name: cover
+            label: Cover Image URL
+            type: string
+          - name: video
+            label: Demo Video URL
+            type: string
+          - name: links
+            label: Project Links
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: Button Label
+                type: string
+              - name: url
+                label: Link URL
+                type: string
+              - name: type
+                label: Link Type
+                type: select
+                options:
+                  values:
+                    - code
+                    - paper
+                    - demo
+                    - video
+                    - external
+          - name: featured
+            label: Featured on Homepage
+            type: boolean
+          - name: order
+            label: Sort Order
+            type: number
+          - name: body
+            label: Project Detail Body
+            type: rich-text
+            options:
+              media: site-media
+              path: public/images/uploads
+              rename: true
+              switcher: true

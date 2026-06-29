@@ -1,6 +1,6 @@
 # Personal Academic Site
 
-一个基于 Astro 的个人学术主页。站点代码负责页面结构、样式和构建；可编辑内容全部放在 `content/` 目录，适合通过 GitBook Git Sync 维护。
+一个基于 Astro 的个人学术主页。站点代码负责页面结构、样式和构建；可编辑内容全部放在 `content/` 目录，并通过 Pages CMS 可视化维护。
 
 ## 本地运行
 
@@ -45,7 +45,7 @@ npm run preview
 它会在以下情况自动部署：
 
 - push 到 `main` 分支
-- GitBook Git Sync 把内容同步到 GitHub 并产生新的 commit
+- Pages CMS 保存内容并 commit 到 GitHub
 - 在 GitHub Actions 页面手动点击 `Run workflow`
 
 当前远端仓库是用户主页仓库：
@@ -101,9 +101,17 @@ https://用户名.github.io/personal-academic-site/
 
 workflow 会自动识别这两种情况，不需要手动修改 `astro.config.mjs`。
 
-## GitBook 维护方式
+## 内容维护方式
 
-推荐把 GitBook Space 连接到这个 GitHub 仓库，并让 GitBook 同步以下目录：
+主页内容使用 Pages CMS 维护，独立笔记站点继续使用 GitBook。不要再把 GitBook Space 直接同步到本仓库的 `content/site/` 或 `content/projects/`，否则 Pages CMS 和 GitBook 会同时写同一批文件，容易产生冲突。
+
+Pages CMS 配置文件位于：
+
+```text
+.pages.yml
+```
+
+Pages CMS 会提供表单式编辑界面，直接读写这些内容：
 
 ```text
 content/site/
@@ -111,20 +119,87 @@ content/projects/
 public/
 ```
 
-日常维护时只改 `content/` 下的 Markdown 文件和 `public/` 下的图片资源，不需要改 `src/` 代码。
+日常维护时只改 Pages CMS 后台暴露出的内容字段，不需要改 `src/` 代码。
 
 推荐流程：
 
 ```text
-在 GitBook 修改内容
--> GitBook Git Sync 到 GitHub
+在 Pages CMS 修改主页内容
+-> Pages CMS commit 到 GitHub main 分支
 -> GitHub Actions 自动构建
 -> GitHub Pages 自动更新网站
+```
+
+笔记站点的推荐流程：
+
+```text
+在 GitBook 维护独立笔记站点
+-> 获得每个笔记或 Space 的公开链接
+-> 在 Pages CMS 的 notes 配置里添加外链条目
+-> 主页 Notes 页面跳转到 GitBook
+```
+
+### Pages CMS 使用步骤
+
+1. 打开 `https://app.pagescms.org`。
+2. 使用 GitHub 账号登录。
+3. 安装 Pages CMS GitHub App，并授权访问 `zhoumy0313.github.io` 仓库。
+4. 在 Pages CMS 中选择该仓库和 `main` 分支。
+5. Pages CMS 会自动读取 `.pages.yml`。
+6. 在后台编辑中文内容、英文内容、研究项目和图片资源。
+7. 点击保存后，Pages CMS 会向 GitHub 提交 commit。
+8. GitHub Actions 会自动部署新版本。
+
+### Pages CMS 中的内容分组
+
+后台会显示两个主要分组：
+
+```text
+中文内容
+English Content
+```
+
+每个分组中包含：
+
+```text
+个人信息与 About / Profile and About
+导航栏 / Navigation
+首页模块 / Homepage Sections
+教育经历 / Education
+发表内容 / Publications
+获奖经历 / Awards
+学习笔记外链 / Study Note Links
+社交链接 / Social Links
+研究项目 / Projects
+```
+
+### 图片维护
+
+当前内容支持两种图片写法：
+
+```text
+https://res.cloudinary.com/.../image.jpg
+/images/uploads/example.jpg
+```
+
+如果图片已经放在 Cloudinary、GitHub 图床或其他 CDN，直接在图片字段中填写完整 URL。
+
+如果希望把图片上传到本仓库，可以在 Pages CMS 的媒体库上传。默认上传目录是：
+
+```text
+public/images/uploads/
+```
+
+发布后的引用路径是：
+
+```text
+/images/uploads/filename.jpg
 ```
 
 ## 当前内容结构
 
 ```text
+.pages.yml
 content/
   site/
     zh/
@@ -150,6 +225,9 @@ content/
       *.md
     en/
       *.md
+public/
+  images/
+    uploads/
 ```
 
 `zh` 是中文内容，`en` 是英文内容。中英文页面结构一致，但文字内容分别维护。
@@ -343,7 +421,7 @@ content/projects/zh/
 content/projects/en/
 ```
 
-项目文件使用 `.md`，不要使用 `.mdx`，这样更适合 GitBook 编辑。
+项目文件使用 `.md`，不要使用 `.mdx`，这样更适合 Pages CMS 和普通 Markdown 工具编辑。
 
 示例：
 
@@ -440,13 +518,17 @@ filter:
 - 想让某个项目出现在首页：在对应项目 Markdown 里设置 `featured: true`。
 - 想让首页显示全部项目：删除 `homepage.md` 里的 `filter` 配置。
 
-### 修改 GitBook 后网页没有立刻更新？
+### 修改 Pages CMS 后网页没有立刻更新？
 
 检查三处：
 
-1. GitBook 是否已经成功同步 commit 到 GitHub。
+1. Pages CMS 是否已经成功 commit 到 GitHub。
 2. GitHub 仓库 `Actions` 页面中 `Deploy to GitHub Pages` 是否运行成功。
 3. GitHub 仓库 `Settings -> Pages` 是否已经设置为 `GitHub Actions`。
+
+### GitBook 还需要连接这个仓库吗？
+
+不建议。GitBook 更适合维护独立笔记站点，不适合直接编辑这个仓库里大量 frontmatter 配置。主页内容用 Pages CMS，笔记正文用 GitBook，主页 Notes 页面只保存 GitBook 外链。
 
 ### GitHub Pages 打开后图片或链接 404？
 

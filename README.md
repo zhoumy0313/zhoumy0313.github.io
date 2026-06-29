@@ -1,194 +1,356 @@
 # Personal Academic Site
 
-An Astro-based personal academic website generated from Markdown and MDX content.
+一个基于 Astro 的个人学术主页。站点代码负责页面结构、样式和构建；可编辑内容全部放在 `content/` 目录，适合通过 GitBook Git Sync 维护。
 
-## What This Site Is
+## 本地运行
 
-This repository is the presentation layer for a personal academic homepage.
-It is built as a static site and deployed to GitHub Pages.
-
-The editable content is intended to live in `content/` and be updated through GitBook Git Sync, so the site owner can change page content without touching the Astro components.
-
-## Local Development
-
-Install dependencies:
+安装依赖：
 
 ```bash
 npm install
 ```
 
-Run the type and content checks:
-
-```bash
-npm run check
-```
-
-Build the static site:
-
-```bash
-npm run build
-```
-
-Start the local dev server:
+启动开发服务器：
 
 ```bash
 npm run dev
 ```
 
-Open the local site in your browser with the URL printed by Astro, usually `http://localhost:4321/`.
+构建前检查：
 
-Preview the production build locally:
+```bash
+npm run check
+```
+
+生产构建：
+
+```bash
+npm run build
+```
+
+预览生产构建：
 
 ```bash
 npm run preview
 ```
 
-## GitHub Pages Deployment
+## 部署到 GitHub Pages
 
-The repository includes a GitHub Actions workflow at `.github/workflows/deploy.yml`.
-
-It:
-- runs on pushes to `main`
-- supports manual runs via `workflow_dispatch`
-- uses `actions/checkout@v6`
-- builds with `withastro/action@v6`
-- deploys with `actions/deploy-pages@v5`
-
-### GitHub Pages Settings
-
-In the repository settings, set Pages source to `GitHub Actions`.
-
-Set these repository variables when needed:
-
-- `SITE_URL`
-  - Optional.
-  - Overrides the public site URL passed to Astro.
-- `BASE_PATH`
-  - Required for project sites.
-  - Use `/` for a user site such as `username.github.io`.
-  - Use `/<repo-name>` for a project site, for example `/personal-academic-site`.
-
-The workflow uses safe fallbacks:
-
-```yaml
-SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
-BASE_PATH: ${{ vars.BASE_PATH || format('/{0}', github.event.repository.name) }}
-```
-
-If you are deploying a user site, override `BASE_PATH` to `/`.
-
-## GitBook Editing Model
-
-GitBook is the source of truth for content editing. The intended workflow is:
+仓库已包含 GitHub Actions 部署文件：
 
 ```text
-Edit in GitBook
--> GitBook Git Sync pushes Markdown/MDX into this repo
--> GitHub Actions builds the site
--> GitHub Pages serves the generated static output
+.github/workflows/deploy.yml
 ```
 
-The goal is that the site owner edits content in GitBook, not by cloning and manually editing Astro files.
+它会在以下情况自动部署：
 
-## Content Structure
+- push 到 `main` 分支
+- GitBook Git Sync 把内容同步到 GitHub 并产生新的 commit
+- 在 GitHub Actions 页面手动点击 `Run workflow`
 
-All editable content lives under `content/`.
+当前远端仓库是用户主页仓库：
 
-- `content/site/homepage.md` controls homepage section order and section types.
-- `content/site/profile.md` controls the sidebar identity block and homepage "About" section body.
-- `content/site/navigation.md` controls top navigation labels and destinations.
-- `content/site/social.md` controls sidebar social/contact buttons.
-- `content/site/education.md` controls the education timeline.
-- `content/site/publications.md` controls the publications list.
-- `content/site/awards.md` controls the awards list.
-- `content/notes.md` controls the external notes landing page.
-- `content/projects/*.mdx` controls individual project pages.
+```text
+zhoumy0313/zhoumy0313.github.io
+```
 
-Static assets live under `public/`:
+因此发布地址为：
 
-- `public/images/avatar.svg` is the default profile avatar.
-- `public/images/project-default.svg` is the fallback project cover.
+```text
+https://zhoumy0313.github.io/
+```
 
-## Markdown and MDX Conventions
+### GitHub 网页端设置步骤
 
-### 1. Site singleton files
+1. 打开 GitHub 仓库页面。
+2. 进入 `Settings`。
+3. 左侧进入 `Pages`。
+4. 在 `Build and deployment` 区域找到 `Source`。
+5. 将 `Source` 设置为 `GitHub Actions`。
+6. 回到仓库的 `Actions` 页面。
+7. 选择 `Deploy to GitHub Pages` workflow。
+8. 点击 `Run workflow` 手动运行一次，或直接 push 到 `main` 触发部署。
 
-`content/site/*.md` files are single-entry content sources used by the homepage and dedicated routes.
+部署成功后，Actions 运行记录里会显示最终访问地址。
 
-Supported homepage section types are controlled by `content/site/homepage.md`:
+### 用户主页仓库与项目仓库的区别
 
-- `markdown`
-- `collection-list`
-- `timeline`
-- `link-card`
+如果仓库名是：
 
-The renderer only accepts the allowed source/type combinations. Invalid combinations fail the build.
+```text
+用户名.github.io
+```
 
-### 2. Structured list data
+站点发布在根路径：
 
-`content/site/publications.md`, `content/site/awards.md`, and `content/site/education.md` use frontmatter arrays.
+```text
+https://用户名.github.io/
+```
 
-The expected item shapes are:
+如果以后改成普通项目仓库，例如：
 
-```md
----
+```text
+personal-academic-site
+```
+
+站点会发布在：
+
+```text
+https://用户名.github.io/personal-academic-site/
+```
+
+workflow 会自动识别这两种情况，不需要手动修改 `astro.config.mjs`。
+
+## GitBook 维护方式
+
+推荐把 GitBook Space 连接到这个 GitHub 仓库，并让 GitBook 同步以下目录：
+
+```text
+content/site/
+content/projects/
+public/
+```
+
+日常维护时只改 `content/` 下的 Markdown 文件和 `public/` 下的图片资源，不需要改 `src/` 代码。
+
+推荐流程：
+
+```text
+在 GitBook 修改内容
+-> GitBook Git Sync 到 GitHub
+-> GitHub Actions 自动构建
+-> GitHub Pages 自动更新网站
+```
+
+## 当前内容结构
+
+```text
+content/
+  site/
+    zh/
+      profile.md
+      navigation.md
+      homepage.md
+      education.md
+      publications.md
+      awards.md
+      notes.md
+      social.md
+    en/
+      profile.md
+      navigation.md
+      homepage.md
+      education.md
+      publications.md
+      awards.md
+      notes.md
+      social.md
+  projects/
+    zh/
+      *.md
+    en/
+      *.md
+```
+
+`zh` 是中文内容，`en` 是英文内容。中英文页面结构一致，但文字内容分别维护。
+
+## 页面与 URL
+
+站点使用双语路径：
+
+```text
+/zh/
+/zh/education/
+/zh/publications/
+/zh/awards/
+/zh/projects/
+/zh/projects/project-slug/
+/zh/notes/
+
+/en/
+/en/education/
+/en/publications/
+/en/awards/
+/en/projects/
+/en/projects/project-slug/
+/en/notes/
+```
+
+根路径 `/` 会自动跳转到 `/zh/`。
+
+## 可编辑文件说明
+
+### `profile.md`
+
+控制侧边栏个人信息和首页 About 文本。
+
+常用字段：
+
+```yaml
+name: "周明杨"
+avatar: "https://example.com/avatar.jpg"
+motto: "厚积薄发，继往开来。"
+location: "中国武汉"
+organization: "中国科学院精密测量院"
+position: "中国科学院大学硕士"
+title: "测绘科学与技术"
+research:
+  - 机器人定位导航
+  - 具身智能
+email: "zhoumy0313@gmail.com"
+```
+
+frontmatter 下方的正文会渲染为 About 内容。
+
+### `navigation.md`
+
+控制顶部导航栏。
+
+```yaml
+items:
+  - label: "首页"
+    href: "/"
+  - label: "发表"
+    href: "/publications/"
+  - label: "获奖"
+    href: "/awards/"
+  - label: "项目"
+    href: "/projects/"
+  - label: "笔记"
+    href: "/notes/"
+```
+
+这里的 `href` 写不带语言前缀的路径即可，程序会自动生成 `/zh/...` 或 `/en/...`。
+
+### `homepage.md`
+
+控制首页展示哪些模块、模块顺序、标题和筛选规则。
+
+示例：
+
+```yaml
+sections:
+  - type: markdown
+    title: 关于我
+    source: profile
+  - type: timeline
+    title: 教育经历
+    source: education
+  - type: collection-list
+    title: 发表内容
+    source: publications
+  - type: collection-list
+    title: 研究项目
+    source: projects
+    filter:
+      featured: true
+    limit: 3
+```
+
+首页项目列表如果配置了：
+
+```yaml
+filter:
+  featured: true
+```
+
+则首页只显示项目 Markdown 中 `featured: true` 的项目。`/projects/` 项目页不受这个筛选影响，会显示全部项目。
+
+如果希望首页显示全部项目，删除 `filter` 即可。
+
+### `education.md`
+
+控制教育经历列表。
+
+```yaml
+items:
+  - degree: "硕士"
+    school: "中国科学院大学"
+    period: "2026.09 至今"
+    description: "中国科学院精密测量科学与技术创新研究院 - 测绘科学与技术专业"
+    image: "https://example.com/cas-logo.png"
+```
+
+`image` 可使用外链，也可以使用 `public/` 下的资源路径，例如 `/images/cas-logo.png`。
+
+### `publications.md`
+
+控制发表内容列表。卡片本身不会跳转；如果配置 `links`，会在卡片底部显示链接按钮。
+
+```yaml
 items:
   - title: "Paper Title"
-    venue: "Conference or Journal"
-    date: 2026
-    authors: "A, B, C"
-    link: "https://example.com"
-    status: "Under review"
----
-```
-
-```md
----
-items:
-  - title: "Academic Award"
-    issuer: "Awarding Organization"
+    venue: "IEEE Conference"
     date: 2025
-    description: "Recognition for research or project work."
----
+    authors: "Author A, Author B"
+    status: "Published"
+    image: "https://example.com/paper-cover.jpg"
+    links:
+      - title: "PDF"
+        url: "https://example.com/paper.pdf"
+      - title: "Code"
+        url: "https://github.com/example/repo"
 ```
+
+如果不需要链接按钮，可以删除 `links` 或设置为空数组。
+
+### `awards.md`
+
+控制获奖经历列表。卡片只展示信息，不跳转。
+
+```yaml
+items:
+  - title: "RoboMaster机甲大师高校联盟赛"
+    issuer: "中国大学生机器人大赛组委会"
+    date: 2025
+    description: "步兵对抗赛国家级一等奖"
+    image: "https://example.com/award.jpg"
+```
+
+### `notes.md`
+
+控制笔记列表。每个笔记条目都是外链。
+
+```yaml
+items:
+  - title: "导航基础学习笔记"
+    summary: "惯性导航、组合导航等导航基础知识学习笔记。"
+    image: "https://example.com/note-cover.jpg"
+    url: "https://example.gitbook.io/research-reading"
+    tags:
+      - notes
+      - navigation
+```
+
+### `social.md`
+
+控制侧边栏社交链接。
+
+```yaml
+items:
+  - label: "GitHub"
+    url: "https://github.com/zhoumy0313"
+  - label: "Email"
+    url: "mailto:zhoumy0313@gmail.com"
+```
+
+## Project Markdown
+
+只有项目有独立详情页。项目文件放在：
+
+```text
+content/projects/zh/
+content/projects/en/
+```
+
+项目文件使用 `.md`，不要使用 `.mdx`，这样更适合 GitBook 编辑。
+
+示例：
 
 ```md
----
-items:
-  - degree: "M.S. Candidate"
-    school: "University of Chinese Academy of Sciences"
-    period: "2026 - Present"
-    description: "Graduate study in engineering and research-oriented systems development."
----
-```
-
-These files are validated at build time. Missing required fields fail the build instead of publishing blank UI.
-
-### 3. Project MDX pages
-
-Each file in `content/projects/*.mdx` is a standalone project page.
-
-Required frontmatter fields:
-
-- `title`
-- `summary`
-- `date`
-
-Common optional fields:
-
-- `tags`
-- `cover`
-- `video`
-- `links`
-- `featured`
-- `order`
-
-Example:
-
-```mdx
 ---
 title: "Autonomous Robot Navigation System"
-summary: "An indoor navigation experiment covering mapping, localization, path planning, and system integration."
+summary: "An indoor navigation project covering mapping, localization, path planning, and system integration."
 date: 2026-03-01
 tags:
   - ROS2
@@ -205,68 +367,99 @@ order: 10
 ---
 
 Project detail content goes here.
-
-<ProjectVideo url="https://example.com/navigation-demo.mp4" title="Navigation Demo" />
 ```
 
-Allowed MDX components in project pages:
+字段说明：
 
-- `LinkButton`
-- `ProjectGallery`
-- `ProjectVideo`
-- `ResearchFigure`
+- `title`: 项目标题，必填。
+- `summary`: 项目摘要，必填。
+- `date`: 项目日期，必填。
+- `tags`: 标签，可为空。
+- `cover`: 项目封面图，可使用外链或 `/images/...`。
+- `video`: 演示视频地址，可选。
+- `links`: 项目相关链接，可选。
+- `featured`: 是否在首页 featured 项目列表展示。
+- `order`: 排序权重，数字越小越靠前。
 
-Project MDX files must not declare `import` or `export` statements. That keeps the component surface narrow and predictable.
-
-## URL and Base-Path Rules
-
-This site is built to work on both:
-
-- a user site such as `https://username.github.io`
-- a project site such as `https://username.github.io/repo-name`
-
-Internal links and public assets are normalized through the site base path.
-That means URLs like `/images/avatar.svg`, `/projects/`, and similar paths are safe to keep in content files.
-
-External links are not rewritten.
-
-## Homepage Behavior
-
-The homepage renders sections from `content/site/homepage.md`.
-
-The current first-version structure includes:
-
-- sidebar profile card
-- navigation bar
-- about section
-- featured projects
-- education timeline
-- publications
-- awards
-- notes link card
-
-## Deployment Flow
+中英文项目建议使用相同文件名，例如：
 
 ```text
-GitBook edit
--> Git Sync to GitHub
--> GitHub Actions runs Astro build
--> GitHub Pages deploys the generated `dist/`
+content/projects/zh/robot-navigation.md
+content/projects/en/robot-navigation.md
 ```
 
-## Troubleshooting
+这样中英文项目详情页路径会保持一致。
 
-- If images or links work locally but fail on GitHub Pages, check `BASE_PATH`.
-- If a GitBook edit breaks the build, the content schema or section validator is doing its job. Fix the frontmatter rather than weakening the validator.
-- If you add new project MDX syntax and the build fails, check whether the file introduced an `import` or `export` statement.
+## 图片资源约定
 
-## Repository Layout
+图片可以使用两种方式：
+
+1. 使用外部 CDN 或图床 URL：
+
+```yaml
+image: "https://example.com/image.jpg"
+```
+
+2. 使用仓库内 `public/images/` 的资源：
+
+```yaml
+image: "/images/example.jpg"
+```
+
+`public/` 中的资源会原样发布到站点根路径。
+
+## 代码目录说明
+
+日常内容维护通常不需要修改这些目录：
 
 ```text
-.github/workflows/deploy.yml
-content/
-public/
-src/
+src/components/   页面组件
+src/layouts/      页面布局
+src/lib/          内容读取、路径处理、校验逻辑
+src/pages/        Astro 路由页面
+src/styles/       全局样式
 ```
 
-The implementation is intentionally small and content-driven so it can later be turned into a reusable template if needed.
+如果只是改个人信息、教育经历、发表内容、获奖经历、项目、笔记和社交链接，只改 `content/` 即可。
+
+## 常见问题
+
+### 项目页面有两个项目，但首页只显示一个项目？
+
+这是因为首页 `homepage.md` 中的项目模块可能配置了：
+
+```yaml
+filter:
+  featured: true
+```
+
+这表示首页只展示 `featured: true` 的项目。项目总页 `/projects/` 会展示所有项目。
+
+解决方式：
+
+- 想让某个项目出现在首页：在对应项目 Markdown 里设置 `featured: true`。
+- 想让首页显示全部项目：删除 `homepage.md` 里的 `filter` 配置。
+
+### 修改 GitBook 后网页没有立刻更新？
+
+检查三处：
+
+1. GitBook 是否已经成功同步 commit 到 GitHub。
+2. GitHub 仓库 `Actions` 页面中 `Deploy to GitHub Pages` 是否运行成功。
+3. GitHub 仓库 `Settings -> Pages` 是否已经设置为 `GitHub Actions`。
+
+### GitHub Pages 打开后图片或链接 404？
+
+优先检查图片路径。
+
+仓库内图片应放在 `public/images/`，内容中引用为：
+
+```yaml
+image: "/images/filename.jpg"
+```
+
+不要写成：
+
+```yaml
+image: "public/images/filename.jpg"
+```

@@ -111,6 +111,12 @@ Pages CMS 配置文件位于：
 .pages.yml
 ```
 
+详细的 `.pages.yml` 字段映射和日常维护说明见：
+
+```text
+docs/pages-cms-guide.md
+```
+
 Pages CMS 会提供表单式编辑界面，直接读写这些内容：
 
 ```text

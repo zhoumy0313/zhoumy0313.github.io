@@ -8,7 +8,7 @@ items:
     date: 2025
     authors: Kaixiang Lu, Xueli Guo, Mingyang Zhou, Kaixin Feng, You Li
     status: Published
-    image: /images/uploads/education/lowcostcalibration.jpg
+    image: /images/uploads/publication/lowcostcalibration.jpg
     links:
       - title: IEEE
         url: https://ieeexplore.ieee.org/document/11468449

@@ -1,6 +1,6 @@
 ---
 name: 周明杨
-avatar: /public/images/uploads/profile/profile.jpg
+avatar: /images/uploads/profile/profile.jpg
 motto: 厚积薄发，继往开来。
 location: 中国武汉
 organization: 中国科学院精密测量院

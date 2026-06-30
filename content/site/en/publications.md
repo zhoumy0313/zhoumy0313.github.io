@@ -1,14 +1,15 @@
 ---
-title: "Publications"
-summary: "Papers, preprints, and selected research outputs."
+title: Publications
+summary: Papers, preprints, and selected research outputs.
 items:
-  - title: "Low-Cost Thermal-Infrared Camera Calibration Using a Passive Perforated Checkerboard"
-    venue: "UPINLBS IEEE"
+  - title: Low-Cost Thermal-Infrared Camera Calibration Using a Passive Perforated
+      Checkerboard
+    venue: UPINLBS IEEE
     date: 2025
-    authors: "Kaixiang Lu, Xueli Guo, Mingyang Zhou, Kaixin Feng, You Li"
-    status: "Published"
-    image: "https://res.cloudinary.com/ddwyuqvdq/image/upload/v1782713793/paper1_uypo1y.jpg"
+    authors: Kaixiang Lu, Xueli Guo, Mingyang Zhou, Kaixin Feng, You Li
+    status: Published
+    image: /images/uploads/education/lowcostcalibration.jpg
     links:
-      - title: "IEEE"
-        url: "https://ieeexplore.ieee.org/document/11468449"
+      - title: IEEE
+        url: https://ieeexplore.ieee.org/document/11468449
 ---

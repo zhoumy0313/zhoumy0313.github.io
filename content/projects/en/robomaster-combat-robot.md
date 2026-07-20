@@ -12,28 +12,44 @@ summary: >-
 date: 2026-07-20
 featured: false
 ---
-```markdown
 <div style="text-align: center;">
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/team_group_photo.jpg" alt="Group Photo of Our Team" style="width: 100%; max-width: 600px;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/team_group_photo.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/team_group_photo.jpg)" alt="Group Photo of Our Team" style="width: 100%; max-width: 600px;">
+
     <figcaption>Group Photo of Our Team</figcaption>
+
   </figure>
+
 </div>
 
 ## Awards
 
 - 2025 RoboMaster University Robot Competition
+
   - First Prize at National Finals (the first-ever national first prize in Wuhan University's history)
+
   - Second Prize at National Finals
+
   - Third Prize at National Finals
+
   - Robot Competition Award
+
   - Runner-up in Infantry Combat Competition at Zhejiang Station
+
   
+
 <div style="text-align: center;">
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/prize_group_photo.jpg" alt="Group Photo of Our Team Winning Runner-up" style="width: 100%; max-width: 600px;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/prize_group_photo.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/prize_group_photo.jpg)" alt="Group Photo of Our Team Winning Runner-up" style="width: 100%; max-width: 600px;">
+
     <figcaption>Group Photo of Our Team Winning Runner-up</figcaption>
+
   </figure>
+
 </div>
 
 ## Technical Skills
@@ -45,14 +61,23 @@ The infantry and sentry robots for the RoboMaster University Alliance Tournament
 The robot is assembled from 3mm carbon fiber plates, high-strength connectors, and PLC 3D-printed parts. The shell uses carbon fiber plates capable of withstanding intense collisions and impacts; the central frame adopts aluminum square tubes, which not only achieve high weight loading but also meet high-strength requirements; complex modules with smaller force requirements use PLC printed parts from a Bambu printer, eliminating the need for custom processing and significantly saving time and economic costs.
 
 <div style="display: flex; justify-content: space-around; text-align: center;">
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/infantry_close_up.jpg" alt="Infantry Robot" style="width: 100%; max-width: 350px; height: 90%;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/infantry_close_up.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/infantry_close_up.jpg)" alt="Infantry Robot" style="width: 100%; max-width: 350px; height: 90%;">
+
     <figcaption>Infantry Robot</figcaption>
+
   </figure>
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/sentry_close_up.jpg" alt="Sentry Robot" style="width: 100%; max-width: 350px; height: 90%;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/sentry_close_up.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/sentry_close_up.jpg)" alt="Sentry Robot" style="width: 100%; max-width: 350px; height: 90%;">
+
     <figcaption>Sentry Robot</figcaption>
+
   </figure>
+
 </div>
 
 The robot chassis is a four-wheel omnidirectional wheel chassis, with each wheel group using a spring shock absorption module to ensure separate movement between the robot chassis and the gimbal, allowing accurate movement while the chassis spins at high speed.
@@ -62,10 +87,15 @@ The connection between the chassis and the gimbal uses a Mofulong multi-channel 
 The gimbal consists of a control system, computing system, ammunition supply system, shooting system, and sensor system. The control system is a DJI RoboMaster C-type development board equipped with an STM32F407 chip, running the FreeRTOS operating system to manage overall robot system control; the computing system is an Nvidia Jetson Orin NX development board, responsible for robot computation and planning, and uses OpenCV for visual recognition and target locking; the ammunition supply system comprises a bullet feed disc and feed chain, responsible for delivering standard 17mm fluorescent pellets to the shooting system; the shooting system includes two friction wheels, pellet limiter, and muzzle velocity measurement module, capable of firing 17mm fluorescent pellets at different speeds to achieve precise strikes on targets; the sensor system includes a Daheng industrial camera and a Livox mid-360 LiDAR, enabling perception of the surrounding environment and detection and tracking of targets.
 
 <div style="text-align: center;">
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/gimbal_close_up.jpg" alt="Gimbal Close Up" style="width: 100%; max-width: 300px;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/gimbal_close_up.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/gimbal_close_up.jpg)" alt="Gimbal Close Up" style="width: 100%; max-width: 300px;">
+
     <figcaption>Gimbal Close Up</figcaption>
+
   </figure>
+
 </div>
 
 ### Electrical System
@@ -77,14 +107,23 @@ In our design, CAN1 bus is used for chassis control communication, relayed throu
 UART1 serial port is used for data transmission between the control system and the computing system. After the computing system acquires data from sensors and processes it through algorithms, it transmits the results to the control system to complete robot control. The control system then feeds back the control results to the computing system, completing the closed loop; UART2 serial port is used for communication between the robot and the competition judging system, allowing real-time data acquisition from the judging system for status judgment and implementation planning, while also transmitting robot control information to the judging system to synchronize robot and competition data.
 
 <div style="display: flex; justify-content: space-around; text-align: center;">
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/control_system.jpg" alt="Control System" style="width: 100%; max-width: 350px; height: 100%;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/control_system.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/control_system.jpg)" alt="Control System" style="width: 100%; max-width: 350px; height: 100%;">
+
     <figcaption>Control System</figcaption>
+
   </figure>
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/in_progress.jpg" alt="Building Robots" style="width: 100%; max-width: 350px; height: 100%;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/in_progress.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/in_progress.jpg)" alt="Building Robots" style="width: 100%; max-width: 350px; height: 100%;">
+
     <figcaption>Building Robots</figcaption>
+
   </figure>
+
 </div>
 
 ### Software Architecture
@@ -98,15 +137,25 @@ Upon obtaining LiDAR data, the navigation software uses Fast-LIO for map constru
 ## Competition Review Video
 
 <div style="text-align: center;">
+
   <iframe 
+
     src="//player.bilibili.com/player.html?isOutside=true&aid=114220981027869&bvid=BV1zyoWYJEe1&cid=29056175278&p=1" 
+
     scrolling="no" 
+
     border="0" 
+
     frameborder="no" 
+
     framespacing="0" 
+
     allowfullscreen="true" 
+
     style="width: 100%; max-width: 560px; aspect-ratio: 16 / 9;">
+
   </iframe>
+
 </div>
 
 ## Promotion for Engineering Practice and Innovation Club
@@ -118,9 +167,12 @@ This competition experience fully demonstrated the power of teamwork and the imp
 For more information about the Engineering Practice and Innovation Club of Wuhan University, please scan the QR code to access the club's WeChat official account:
 
 <div style="text-align: center;">
+
   <figure style="display: inline-block; margin: 10px;">
-    <img src="assets/images/work/robomaster/WHU_GC_Team_QRcode.jpg" alt="WHU GC-Team QR Code" style="width: 100%; max-width: 300px;">
+
+    <img src="[https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/WHU_GC_Team_QRcode.jpg](https://raw.githubusercontent.com/zhoumy0313/zhoumy0313.github.io/main/assets/images/work/robomaster/WHU_GC_Team_QRcode.jpg)" alt="WHU GC-Team QR Code" style="width: 100%; max-width: 300px;">
+
   </figure>
+
 </div>
-```
 

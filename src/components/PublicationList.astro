@@ -2,17 +2,17 @@
 import { withBase } from "@lib/paths";
 
 type PublicationLink = {
-  title?: string;
-  url?: string;
+  title: string;
+  url: string;
 };
 
 type PublicationItem = {
-  title?: string;
-  venue?: string;
-  date?: Date | number | string;
-  authors?: string;
-  links?: PublicationLink[];
-  status?: string;
+  title: string;
+  venue: string;
+  date: number;
+  authors: string;
+  links: PublicationLink[];
+  status: string;
   image?: string;
 };
 
@@ -34,11 +34,11 @@ function formatYear(date?: Date | number | string): string {
 
 <div class="publication-list">
   {items.map((item) => {
-    const links = (item.links ?? []).filter((link) => link.title && link.url);
+    const links = item.links;
 
     return (
       <article class="publication-card content-card">
-        {item.image && <img src={withBase(item.image)} alt={item.title ?? ""} loading="lazy" />}
+        {item.image && <img src={withBase(item.image)} alt={item.title} loading="lazy" />}
         <div class="publication-body">
           <p class="meta">{`${formatYear(item.date)}${item.venue ? ` · ${item.venue}` : ""}`}</p>
           <h3>{item.title}</h3>

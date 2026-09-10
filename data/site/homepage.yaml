@@ -1,0 +1,10 @@
+kind: homepage
+sections:
+  - source: profile
+  - source: education
+  - source: publications
+  - source: awards
+  - source: projects
+    featuredOnly: true
+    limit: 3
+  - source: notes

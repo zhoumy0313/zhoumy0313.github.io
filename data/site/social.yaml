@@ -1,0 +1,6 @@
+kind: social
+items:
+  - { id: github, label: GitHub, type: code, url: https://github.com/AaronChou313 }
+  - { id: orcid, label: ORCID, type: orcid, url: https://orcid.org/0009-0002-1527-7603 }
+  - { id: researchgate, label: ResearchGate, type: researchgate, url: https://www.researchgate.net/profile/Mingyang-Zhou-16 }
+  - { id: csdn, label: CSDN, type: blog, url: https://blog.csdn.net/qq_39599112 }

@@ -1,0 +1,22 @@
+kind: education
+title: { zh: 教育经历, en: Education }
+summary: { zh: 本科与研究生阶段的教育背景。, en: Academic background and training. }
+items:
+  - id: ucas-master
+    start: 2026-09
+    end: null
+    degree: { zh: 硕士, en: Master of Engineering Candidate }
+    school: { zh: 中国科学院大学, en: University of Chinese Academy of Sciences }
+    description:
+      zh: 中国科学院精密测量科学与技术创新研究院 - 测绘科学与技术专业
+      en: Innovation Academy for Precision Measurement Science and Technology, CAS - Surveying and Mapping Science and Technology
+    image: /images/uploads/education/caslogo.png
+  - id: whu-bachelor
+    start: 2022-09
+    end: 2026-06
+    degree: { zh: 本科, en: Bachelor of Engineering }
+    school: { zh: 武汉大学, en: Wuhan University }
+    description:
+      zh: 遥感信息工程学院 - 空间信息与数字技术专业
+      en: School of Remote Sensing and Information Engineering - Spatial Information and Digital Technology
+    image: /images/uploads/education/whulogo.png

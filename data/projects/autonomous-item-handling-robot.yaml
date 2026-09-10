@@ -1,0 +1,74 @@
+id: autonomous-item-handling-robot
+slug: autonomous-item-handling-robot
+date: 2026-07-20
+featured: false
+order: 0
+title: { zh: 自主物料搬运机器人, en: Autonomous Item Handling Robot }
+summary:
+  zh: 一套能够依据已知地图自主导航、避障并完成物料抓取、搬运和分类的机器人系统；机器人通过二维码识别目标回收区域。
+  en: An autonomous robot that navigates known maps, avoids obstacles, grasps and transports items, and sorts them into recycling areas identified by QR codes.
+cover: /images/uploads/project/item-handling-robot/item-handling-robot.jpg
+tags: [robotics, autonomous-navigation, manipulation]
+links: []
+video: { provider: youtube, id: ERiQQB5y8SE }
+gallery:
+  - id: arm-elevation
+    src: /images/uploads/project/item-handling-robot/arm-elevation.gif
+    caption: { zh: 机械臂升降, en: Robotic arm elevation }
+  - id: arm-extension
+    src: /images/uploads/project/item-handling-robot/arm-extension.gif
+    caption: { zh: 机械臂伸缩, en: Robotic arm extension }
+  - id: obstacle-negotiation
+    src: /images/uploads/project/item-handling-robot/obstacle-negotiation.gif
+    caption: { zh: 机器人越过减速带, en: Robot traversing speed bumps }
+  - id: claw-operation
+    src: /images/uploads/project/item-handling-robot/claw-operation.gif
+    caption: { zh: 夹爪开合, en: Gripper opening and closing }
+  - id: storage-box-rotate
+    src: /images/uploads/project/item-handling-robot/storage-box-rotate.gif
+    caption: { zh: 储物箱切换, en: Storage-box switching }
+body:
+  zh: |
+    ## 硬件组成
+
+    机器人使用 Mid-360 激光雷达进行环境感知、导航与避障，并通过 USB 相机完成物体识别。步进电机驱动的机械臂负责升降和伸缩，舵机夹爪负责可靠抓取不同尺寸的物料。麦克纳姆轮底盘提供全向移动能力，使机器人能够在狭窄区域灵活调整位置。
+
+    Jetson Orin NX 承担导航和视觉识别等高层计算任务，STM32F407 控制板负责电机和传感器的实时控制。
+
+    ## 软件架构
+
+    - **FAST-LIO**：执行实时定位与建图，为基于地图的路径规划提供定位基础。
+    - **YOLOv5**：进行物料检测与识别。
+    - **OpenCV**：处理视觉数据并计算目标坐标。
+
+    ## 核心能力
+
+    1. 基于已知地图自主规划路径、避障，并通过路沿和坡道等简单地形。
+    2. 识别并抓取物料，将其搬运至指定位置。
+    3. 识别二维码标记的回收区域并完成分类投放。
+
+    ## 后续改进
+
+    后续可继续提升目标识别能力、复杂地形通过性能、续航效率和分类机构的精细程度。
+  en: |
+    ## Hardware Components
+
+    A Mid-360 LiDAR provides environmental perception, navigation, and obstacle detection, while a USB camera supports visual recognition. A stepper-motor-driven arm handles lifting and extension, and a servo gripper grasps items of different sizes. The mecanum-wheel chassis enables omnidirectional positioning in confined spaces.
+
+    A Jetson Orin NX performs high-level navigation and recognition workloads, while an STM32F407 control board manages motors and sensors in real time.
+
+    ## Software Architecture
+
+    - **FAST-LIO** provides real-time localization and mapping for map-based planning.
+    - **YOLOv5** performs item detection and recognition.
+    - **OpenCV** processes visual data and calculates target coordinates.
+
+    ## Key Capabilities
+
+    1. Autonomous map-based planning and obstacle avoidance across simple terrain such as curbs and slopes.
+    2. Visual item recognition, grasping, and transport.
+    3. QR-code-based identification of recycling areas for sorted placement.
+
+    ## Future Improvements
+
+    Future work may improve object recognition, traversal of more challenging terrain, battery efficiency, and the sophistication of the sorting mechanism.

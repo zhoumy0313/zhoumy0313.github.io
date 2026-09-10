@@ -1,22 +1,5 @@
 ---
-import AwardList from "@components/AwardList.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
-import { getSiteEntry } from "@lib/content";
-import type { Locale } from "@lib/paths";
-
-export async function getStaticPaths() {
-  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
-}
-
-const { lang } = Astro.params as { lang: Locale };
-const awards = await getSiteEntry("awards", lang);
-const items = awards.data.items ?? [];
+import AwardList from "@components/AwardList.astro"; import BaseLayout from "@layouts/BaseLayout.astro"; import { getSiteData, localize } from "@lib/content"; import { withBase,type Locale } from "@lib/paths";
+export function getStaticPaths(){return [{params:{lang:"zh"}},{params:{lang:"en"}}]}; const {lang}=Astro.params as {lang:Locale}; const data=await getSiteData("awards");
 ---
-
-<BaseLayout title={awards.data.title ?? "Awards"} description={awards.data.summary ?? "Awards and recognitions."} locale={lang}>
-  <section class="content-section">
-    <h2 class="section-title">{awards.data.title ?? "Awards"}</h2>
-    {awards.data.summary && <p class="subtle">{awards.data.summary}</p>}
-    <AwardList items={items} />
-  </section>
-</BaseLayout>
+<BaseLayout title={localize(data.title,lang)} description={localize(data.summary,lang)} locale={lang}><section class="content-section"><h2 class="section-title">{localize(data.title,lang)}</h2><p class="subtle">{localize(data.summary,lang)}</p><AwardList items={data.items.map(i=>({title:localize(i.title,lang),issuer:localize(i.issuer,lang),date:i.year,description:localize(i.description,lang),image:withBase(i.image)}))}/></section></BaseLayout>

@@ -1,0 +1,7 @@
+kind: navigation
+items:
+  - { id: home, href: /, label: { zh: 首页, en: Home } }
+  - { id: publications, href: /publications/, label: { zh: 发表, en: Publications } }
+  - { id: awards, href: /awards/, label: { zh: 获奖, en: Awards } }
+  - { id: projects, href: /projects/, label: { zh: 项目, en: Projects } }
+  - { id: notes, href: /notes/, label: { zh: 笔记, en: Notes } }

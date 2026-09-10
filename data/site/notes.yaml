@@ -1,0 +1,14 @@
+kind: notes
+title: { zh: 学习笔记, en: Study Notes }
+summary:
+  zh: 整理开放的学习笔记、研究记录与外部写作空间。
+  en: Open study notes, research records, and external writing spaces.
+items:
+  - id: navigation-fundamentals
+    url: https://example.gitbook.io/research-reading
+    image: /images/uploads/note/djiuav.jpg
+    title: { zh: 导航基础学习笔记, en: Navigation Fundamentals Notes }
+    summary:
+      zh: 惯性导航、组合导航等导航基础知识学习笔记与经验心得分享。
+      en: Notes and practical reflections on inertial navigation, integrated navigation, and related fundamentals.
+    tags: [lesson, notes, inertial-navigation, integrated-navigation]

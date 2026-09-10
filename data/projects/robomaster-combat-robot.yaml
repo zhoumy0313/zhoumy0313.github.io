@@ -1,0 +1,59 @@
+id: robomaster-combat-robot
+slug: robomaster-combat-robot
+date: 2026-07-20
+featured: false
+order: 0
+title: { zh: RoboMaster 机甲大师战斗机器人, en: RoboMaster Combat Robot }
+summary:
+  zh: 作为武汉大学珞珈狐战队核心成员，我参与了 RoboMaster 机器人的从零设计与研发，并负责步兵机器人和哨兵机器人的云台设计建模。团队在 2025 年赛事中获得多项国家级奖项。
+  en: As a core member of Wuhan University's LuoJiaFox team, I helped design and develop RoboMaster robots from scratch and worked on gimbal design and modeling for infantry and sentry robots. The team received multiple national awards in 2025.
+cover: /images/project-default.svg
+tags: [robotics, mechanical-design, embedded-systems, computer-vision]
+links: []
+video: { provider: bilibili, id: BV1zyoWYJEe1 }
+gallery: []
+body:
+  zh: |
+    ## 竞赛成绩
+
+    在 2025 年 RoboMaster 机甲大师高校赛中，团队获得全国总决赛一等奖、二等奖、三等奖和机器人竞赛奖，并在浙江站步兵对抗赛中获得亚军。其中全国一等奖是武汉大学在该赛事中的首个全国一等奖。
+
+    ## 机械设计
+
+    高校联盟赛使用的步兵机器人和哨兵机器人由彭杰与我参考官方 RoboMaster A1 步兵机器人共同设计建模。彭杰负责底盘，我负责云台。机器人使用 3 mm 碳纤维板、高强度连接件、铝方管和 3D 打印部件，在承载、抗冲击、加工成本和装配效率之间取得平衡。
+
+    四轮全向底盘的每个轮组均带有弹簧减震模块。底盘与云台之间使用多通道大功率导电滑环，使两者可以相对连续旋转。云台集成控制、计算、供弹、发射和传感系统：STM32F407 开发板运行 FreeRTOS，Jetson Orin NX 负责计算与规划；系统还包含 17 mm 荧光弹供弹与发射机构、大恒工业相机和 Livox Mid-360 激光雷达。
+
+    ## 电控系统
+
+    控制系统通过两路 CAN 总线分别管理底盘和云台相关电机：底盘侧连接四个 C620 电调与 3508 电机，云台侧控制 yaw、pitch、摩擦轮和供弹电机。UART1 用于控制系统与计算系统之间的数据闭环传输，UART2 用于与比赛裁判系统通信。
+
+    ## 软件架构
+
+    视觉系统使用 YOLOv5 完成目标检测，再使用 OpenCV 进行阈值判断、颜色识别、线条提取和目标中心定位，将视线偏差传给控制系统完成瞄准与锁定。导航系统使用 Fast-LIO 建图，并通过 LIO-SAM 优化地图，支持基于先验地图和激光雷达数据的自主移动。
+
+    ## 团队实践
+
+    该项目覆盖机械设计、电控、计算机视觉、导航和系统集成，体现了跨学科协作在复杂机器人研发与竞赛实践中的作用。
+  en: |
+    ## Competition Results
+
+    In the 2025 RoboMaster University Robot Competition, the team received first, second, and third prizes at the National Finals as well as a Robot Competition Award, and finished as runner-up in the Infantry Combat Competition at the Zhejiang Station. The national first prize was Wuhan University's first in this competition.
+
+    ## Mechanical Design
+
+    Peng Jie and I designed and modeled the infantry and sentry robots for the University Alliance Tournament with reference to the official RoboMaster A1 infantry robot. Peng was responsible for the chassis, while I handled the gimbal. The structure combines 3 mm carbon-fiber plates, high-strength connectors, aluminum square tubes, and 3D-printed parts to balance loading capacity, impact resistance, fabrication cost, and assembly time.
+
+    Each wheel group on the four-wheel omnidirectional chassis uses spring suspension. A multi-channel high-power slip ring connects the chassis and gimbal, allowing continuous relative rotation. The gimbal integrates control, computing, ammunition supply, shooting, and sensing: an STM32F407 development board runs FreeRTOS, a Jetson Orin NX performs computation and planning, and the system includes a 17 mm fluorescent-pellet feed and shooting mechanism, a Daheng industrial camera, and a Livox Mid-360 LiDAR.
+
+    ## Electrical System
+
+    Two CAN buses manage the chassis and gimbal motors. The chassis bus connects four C620 ESCs and 3508 motors; the gimbal bus controls yaw, pitch, friction-wheel, and ammunition-feed motors. UART1 closes the data loop between the control and computing systems, while UART2 communicates with the competition referee system.
+
+    ## Software Architecture
+
+    The vision pipeline uses YOLOv5 for target detection and OpenCV for thresholding, color recognition, line extraction, and target-center localization. It sends line-of-sight offsets to the control system for aiming and locking. The navigation pipeline uses Fast-LIO for mapping and LIO-SAM for map optimization, supporting autonomous movement from prior maps and LiDAR data.
+
+    ## Engineering Practice
+
+    The project combines mechanical design, embedded control, computer vision, navigation, and system integration, demonstrating the role of interdisciplinary teamwork in complex robot development and competition.

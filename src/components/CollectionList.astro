@@ -1,32 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { localize } from "@lib/content";
 import { localizedProjectHref, type Locale } from "@lib/paths";
 import MediaCard from "@components/MediaCard.astro";
-
-type Props = {
-  projects: CollectionEntry<"projects">[];
-  locale?: Locale;
-};
-
-const { projects, locale = "zh" } = Astro.props;
+import { tagLabel } from "@i18n/ui";
+const { projects, locale } = Astro.props as { projects: CollectionEntry<"projects">[]; locale: Locale };
 ---
-
-<div class="project-list">
-  {projects.map((project) => (
-    <MediaCard
-      href={localizedProjectHref(locale, project.id.split("/").slice(1).join("/"))}
-      title={project.data.title}
-      meta={`${project.data.date.getFullYear()} · ${project.data.tags.join(" / ")}`}
-      summary={project.data.summary}
-      image={project.data.cover}
-      imageAlt={project.data.title}
-    />
-  ))}
-</div>
-
-<style>
-  .project-list {
-    display: grid;
-    gap: 0.95rem;
-  }
-</style>
+<div class="project-list">{projects.map((project) => <MediaCard href={localizedProjectHref(locale, project.data.slug)} title={localize(project.data.title, locale)} meta={`${project.data.date.getFullYear()} · ${project.data.tags.map((tag) => tagLabel(tag, locale)).join(" / ")}`} summary={localize(project.data.summary, locale)} image={project.data.cover} imageAlt={localize(project.data.title, locale)} />)}</div>
+<style>.project-list{display:grid;gap:.95rem}</style>

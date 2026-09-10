@@ -143,12 +143,7 @@ video {
 }
 
 .project-video,
-.research-figure {
-  margin: 1.5rem 0;
-}
-
 .project-video video,
-.research-figure img,
 .project-gallery img {
   border: 1px solid var(--line);
   border-radius: 0.85rem;
@@ -156,29 +151,11 @@ video {
 }
 
 .project-video figcaption,
-.research-figure figcaption {
-  color: var(--muted);
-  font-size: 0.92rem;
-  margin-top: 0.65rem;
-}
-
 .project-gallery {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   margin: 1.5rem 0;
-}
-
-.link-button {
-  background: var(--ink);
-  border-radius: 999px;
-  color: var(--panel);
-  display: inline-flex;
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin: 0.8rem 0;
-  padding: 0.62rem 0.95rem;
-  text-decoration: none;
 }
 
 .content-card {

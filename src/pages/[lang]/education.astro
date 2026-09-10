@@ -1,22 +1,5 @@
 ---
-import EducationTimeline from "@components/EducationTimeline.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
-import { getSiteEntry } from "@lib/content";
-import type { Locale } from "@lib/paths";
-
-export async function getStaticPaths() {
-  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
-}
-
-const { lang } = Astro.params as { lang: Locale };
-const education = await getSiteEntry("education", lang);
-const items = education.data.items ?? [];
+import EducationTimeline from "@components/EducationTimeline.astro"; import BaseLayout from "@layouts/BaseLayout.astro"; import { getSiteData, localize } from "@lib/content"; import { withBase, type Locale } from "@lib/paths"; import { ui } from "@i18n/ui";
+export function getStaticPaths(){return [{params:{lang:"zh"}},{params:{lang:"en"}}]}; const {lang}=Astro.params as {lang:Locale}; const data=await getSiteData("education"); const fmt=(v:string)=>new Intl.DateTimeFormat(lang==="zh"?"zh-CN":"en-US",{year:"numeric",month:lang==="zh"?"2-digit":"short"}).format(new Date(`${v}-01T00:00:00Z`));
 ---
-
-<BaseLayout title={education.data.title ?? "Education"} description={education.data.summary ?? "Academic background and training."} locale={lang}>
-  <section class="content-section">
-    <h2 class="section-title">{education.data.title ?? "Education"}</h2>
-    {education.data.summary && <p class="subtle">{education.data.summary}</p>}
-    <EducationTimeline items={items} />
-  </section>
-</BaseLayout>
+<BaseLayout title={localize(data.title,lang)} description={localize(data.summary,lang)} locale={lang}><section class="content-section"><h2 class="section-title">{localize(data.title,lang)}</h2><p class="subtle">{localize(data.summary,lang)}</p><EducationTimeline items={data.items.map(i=>({degree:localize(i.degree,lang),school:localize(i.school,lang),period:`${fmt(i.start)} – ${i.end?fmt(i.end):ui.present[lang]}`,description:localize(i.description,lang),image:withBase(i.image)}))}/></section></BaseLayout>

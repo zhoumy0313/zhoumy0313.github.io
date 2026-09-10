@@ -1,0 +1,62 @@
+id: autonomous-fruit-harvesting-robot
+slug: autonomous-fruit-harvesting-robot
+date: 2026-07-20
+featured: false
+order: 0
+title: { zh: 自主水果采摘机器人, en: Autonomous Fruit Harvesting Robot }
+summary:
+  zh: 面向农业自动化的自主采摘机器人，可依据预先构建的地图导航，识别成熟水果并选择性采摘，同时保留未成熟水果。
+  en: An agricultural robot that navigates predefined maps, identifies ripe fruit, and harvests selectively while leaving unripe fruit untouched.
+cover: /images/uploads/project/fruit-picking-robot/fruit-picking-robot.jpg
+tags: [robotics, agricultural-robotics, autonomous-navigation, computer-vision]
+links: []
+video: { provider: youtube, id: GXOcZxyLjVI }
+gallery:
+  - id: movement
+    src: /images/uploads/project/fruit-picking-robot/movement.gif
+    caption: { zh: 机器人在作业环境中移动, en: Robot movement through the operating environment }
+  - id: picking
+    src: /images/uploads/project/fruit-picking-robot/picking.gif
+    caption: { zh: 对目标水果进行精确采摘, en: Precision harvesting of target fruit }
+  - id: unload
+    src: /images/uploads/project/fruit-picking-robot/unload.gif
+    caption: { zh: 采摘水果的运输与卸载, en: Transport and unloading of harvested fruit }
+body:
+  zh: |
+    ## 硬件组成
+
+    机器人搭载 Mid-360 激光雷达、高清 USB 相机和激光测距模块。麦克纳姆轮底盘提供全向移动能力；步进电机驱动的机械臂完成平移与伸缩；舵机夹爪负责在尽量不损伤水果的前提下完成采摘。
+
+    系统采用双控制器架构：Jetson Orin NX 负责高层感知、规划和计算，STM32F407 负责实时运动控制。
+
+    ## 软件架构
+
+    - **POINT-LIO**：提供基于激光雷达的定位与建图能力。
+    - **YOLOv8**：检测水果并区分成熟的红色水果与未成熟的绿色水果。
+    - **OpenCV**：处理相机数据并计算目标水果的三维坐标。
+    - **激光测距**：在采摘阶段提供精细距离调整。
+
+    ## 作业流程
+
+    机器人首先依据预先构建的地图导航至目标区域，随后扫描并识别成熟水果，规划接近位置，通过测距反馈控制机械臂和夹爪完成抓取，再将水果转移至收集区域并卸载。
+
+    该系统展示了感知、导航与操作技术在农业自动化场景中的集成应用。
+  en: |
+    ## Hardware Components
+
+    The robot combines a Mid-360 LiDAR, a high-resolution USB camera, and a laser-ranging module. A mecanum-wheel chassis provides omnidirectional mobility; a stepper-motor-driven manipulator handles translation and extension; and a servo gripper harvests fruit while minimizing damage.
+
+    A dual-controller architecture uses a Jetson Orin NX for high-level perception, planning, and computation and an STM32F407 for real-time motion control.
+
+    ## Software Architecture
+
+    - **POINT-LIO** provides LiDAR-based localization and mapping.
+    - **YOLOv8** detects fruit and distinguishes ripe red fruit from unripe green fruit.
+    - **OpenCV** processes camera data and calculates three-dimensional target coordinates.
+    - **Laser ranging** supplies fine distance adjustments during harvesting.
+
+    ## Operational Workflow
+
+    The robot navigates to a target area using a predefined map, scans for ripe fruit, plans an approach position, uses ranging feedback to control the manipulator and gripper, and then transfers the harvested fruit to a collection area for unloading.
+
+    The system demonstrates the integration of perception, navigation, and manipulation technologies for agricultural automation.

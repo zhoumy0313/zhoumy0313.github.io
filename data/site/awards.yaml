@@ -1,0 +1,32 @@
+kind: awards
+title: { zh: 获奖经历, en: Awards }
+summary: { zh: 竞赛、荣誉与阶段性成果。, en: "Competitions, honors, and selected recognitions." }
+items:
+  - id: robomaster-university-league-2025
+    year: 2025
+    title: { zh: RoboMaster机甲大师高校联盟赛, en: RoboMaster University League }
+    issuer: { zh: 中国大学生机器人大赛组委会, en: Organizing Committee of the China University Robot Competition }
+    description: { zh: 步兵对抗赛国家级一等奖, en: National First Prize in the Infantry Duel }
+    image: /images/uploads/award/robomasterlogo.jpeg
+  - id: china-robotics-ai-competition-2025
+    year: 2025
+    title: { zh: 中国机器人及人工智能大赛, en: China Robotics and Artificial Intelligence Competition }
+    issuer: { zh: 中国机器人及人工智能大赛组委会, en: Organizing Committee of the China Robotics and Artificial Intelligence Competition }
+    description: { zh: 全国二等奖, en: National Second Prize }
+    image: /images/uploads/award/craic.png
+  - id: raicom-2025
+    year: 2025
+    title: { zh: 睿抗全国机器人开发者大赛, en: RAICOM National Robot Developer Competition }
+    issuer: { zh: 工业和信息化部人才交流中心, en: Talent Exchange Center of the Ministry of Industry and Information Technology }
+    description: { zh: 全国二等奖, en: National Second Prize }
+    image: /images/uploads/award/raicom.png
+  - id: huazhong-cnc-cup-2025
+    year: 2025
+    title:
+      zh: 华中数控杯工业协作机器人及数字孪生技术创新应用专项赛
+      en: Huazhong CNC Cup Special Competition on Industrial Collaborative Robots and Digital Twin Technology
+    issuer:
+      zh: 全国三维数字化创新设计大赛组委会
+      en: Organizing Committee of the National 3D Digital Innovation Design Competition
+    description: { zh: 湖北省特等奖, en: Hubei Provincial Grand Prize }
+    image: /images/uploads/award/hzsk.png

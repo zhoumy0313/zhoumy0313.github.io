@@ -15,10 +15,6 @@ export function withBase(path: string): string {
   return `${normalizedBase}${normalizedPath}`;
 }
 
-export function projectHref(slug: string): string {
-  return withBase(`/projects/${slug}/`);
-}
-
 export type Locale = "zh" | "en";
 
 export function localizedPath(locale: Locale, path: string): string {
@@ -30,6 +26,9 @@ export function localizedProjectHref(locale: Locale, slug: string): string {
   return localizedPath(locale, `/projects/${slug}/`);
 }
 
-export function getLocaleRoute(locale: Locale, path: string): string {
-  return localizedPath(locale, path);
+export function switchLocalePath(pathname: string, locale: Locale): string {
+  const base = import.meta.env.BASE_URL || "/";
+  const path = base !== "/" && pathname.startsWith(base) ? pathname.slice(base.length) || "/" : pathname;
+  const switched = path.replace(/^\/(?:zh|en)(?=\/|$)/, `/${locale}`);
+  return withBase(switched === path ? `/${locale}/` : switched);
 }

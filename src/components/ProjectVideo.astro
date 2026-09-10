@@ -1,15 +1,7 @@
 ---
-import { withBase } from "@lib/paths";
-
-type Props = {
-  url: string;
-  title?: string;
-};
-
-const { url, title } = Astro.props;
+type Video = { provider: "youtube" | "bilibili"; id: string };
+const { video, title } = Astro.props as { video: Video; title: string };
+const src = video.provider === "youtube" ? `https://www.youtube-nocookie.com/embed/${video.id}` : `https://player.bilibili.com/player.html?isOutside=true&bvid=${video.id}`;
 ---
-
-<figure class="project-video">
-  <video src={withBase(url)} controls preload="metadata" title={title}></video>
-  {title && <figcaption>{title}</figcaption>}
-</figure>
+<figure class="project-video"><iframe src={src} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>
+<style>.project-video iframe{border:1px solid var(--line);border-radius:.85rem;box-shadow:var(--shadow);width:100%;aspect-ratio:16/9}</style>

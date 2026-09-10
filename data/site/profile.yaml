@@ -1,0 +1,27 @@
+kind: profile
+avatar: /images/uploads/profile/profile.jpg
+email: zhoumy0313@gmail.com
+name: { zh: 周明杨, en: Mingyang Zhou }
+motto:
+  zh: 厚积薄发，继往开来。
+  en: Grow in silence to bloom in splendor, embrace the past to forge the future.
+location: { zh: 中国武汉, en: "Wuhan, China" }
+organization:
+  zh: 中国科学院精密测量科学与技术创新研究院
+  en: Innovation Academy for Precision Measurement Science and Technology, CAS
+position: { zh: 中国科学院大学硕士生, en: Master's Student at UCAS }
+major: { zh: 测绘科学与技术, en: Surveying and Mapping Science and Technology }
+research:
+  - id: robot-localization-navigation
+    label: { zh: 机器人定位导航, en: Robot Localization and Navigation }
+  - id: embodied-intelligence
+    label: { zh: 具身智能, en: Embodied Intelligence }
+about:
+  zh: |
+    我叫周明杨，本科毕业于[武汉大学](https://www.whu.edu.cn/)-[遥感信息工程学院](https://rsgis.whu.edu.cn/)，现于中国科学院精密测量科学与技术创新研究院（[精测院](https://apm.cas.cn/)）攻读测绘科学与技术专业硕士学位，同时参与武汉大学[测绘遥感信息工程全国重点实验室](https://liesmars.whu.edu.cn/)-[砺行智能研究组](https://www.r-navigation.com/)的科研工作。
+
+    主要从事机器人定位导航和具身智能研究。
+  en: |
+    My name is Mingyang Zhou. I received my bachelor's degree from the School of Remote Sensing and Information Engineering ([RSGIS](https://rsgis.whu.edu.cn/)), Wuhan University ([WHU](https://www.whu.edu.cn/)). I am pursuing a master's degree in Surveying and Mapping Science and Technology at the Innovation Academy for Precision Measurement Science and Technology ([APM-CAS](https://apm.cas.cn/)), University of Chinese Academy of Sciences ([UCAS](https://www.ucas.ac.cn/)). I also participate in research at the Resilient Navigation Research Group ([R-Nav](https://www.r-navigation.com/)), State Key Laboratory of Information Engineering in Surveying, Mapping and Remote Sensing ([LIESMARS](https://liesmars.whu.edu.cn/)), Wuhan University.
+
+    My research focuses on robot localization and navigation and embodied artificial intelligence.

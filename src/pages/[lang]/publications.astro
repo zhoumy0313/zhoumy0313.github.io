@@ -1,22 +1,5 @@
 ---
-import PublicationList from "@components/PublicationList.astro";
-import BaseLayout from "@layouts/BaseLayout.astro";
-import { getSiteEntry } from "@lib/content";
-import type { Locale } from "@lib/paths";
-
-export async function getStaticPaths() {
-  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
-}
-
-const { lang } = Astro.params as { lang: Locale };
-const publications = await getSiteEntry("publications", lang);
-const items = publications.data.items ?? [];
+import PublicationList from "@components/PublicationList.astro"; import BaseLayout from "@layouts/BaseLayout.astro"; import { getSiteData, localize } from "@lib/content"; import type { Locale } from "@lib/paths"; import { linkTypeLabel, statusLabel } from "@i18n/ui";
+export function getStaticPaths(){return [{params:{lang:"zh"}},{params:{lang:"en"}}]}; const {lang}=Astro.params as {lang:Locale}; const data=await getSiteData("publications");
 ---
-
-<BaseLayout title={publications.data.title ?? "Publications"} description={publications.data.summary ?? "Selected publications and preprints."} locale={lang}>
-  <section class="content-section">
-    <h2 class="section-title">{publications.data.title ?? "Publications"}</h2>
-    {publications.data.summary && <p class="subtle">{publications.data.summary}</p>}
-    <PublicationList items={items} />
-  </section>
-</BaseLayout>
+<BaseLayout title={localize(data.title,lang)} description={localize(data.summary,lang)} locale={lang}><section class="content-section"><h2 class="section-title">{localize(data.title,lang)}</h2><p class="subtle">{localize(data.summary,lang)}</p><PublicationList items={data.items.map(i=>({title:i.title,venue:i.venue,date:i.year,authors:i.authors.join(", "),status:statusLabel(i.status,lang),image:i.image,links:i.links.map(l=>({title:l.label?localize(l.label,lang):linkTypeLabel(l.type,lang),url:l.url}))}))}/></section></BaseLayout>

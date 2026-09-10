@@ -1,0 +1,15 @@
+kind: publications
+title: { zh: 发表内容, en: Publications }
+summary: { zh: 论文、预印本与研究成果记录。, en: "Papers, preprints, and selected research outputs." }
+items:
+  - id: low-cost-thermal-infrared-camera-calibration
+    title: Low-Cost Thermal-Infrared Camera Calibration Using a Passive Perforated Checkerboard
+    authors: [Kaixiang Lu, Xueli Guo, Mingyang Zhou, Kaixin Feng, You Li]
+    year: 2025
+    venue: UPINLBS IEEE
+    status: published
+    image: /images/uploads/publication/lowcostcalibration.jpg
+    links:
+      - type: paper
+        label: { zh: IEEE, en: IEEE }
+        url: https://ieeexplore.ieee.org/document/11468449
